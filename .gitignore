@@ -1,0 +1,27 @@
+# Node modules (dependências instaladas via npm)
+node_modules/
+
+# Arquivo de variáveis de ambiente (contém informações sensíveis, como senhas e tokens)
+.env
+
+# Logs e arquivos temporários
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Diretório de cache
+.cache/
+
+# Pasta de uploads temporários (se houver)
+tmp/
+
+# Arquivos de sistema (dependendo do seu editor ou SO)
+.DS_Store
+Thumbs.db
+
+# Configurações específicas de editores
+.vscode/
+.idea/
+*.swp
