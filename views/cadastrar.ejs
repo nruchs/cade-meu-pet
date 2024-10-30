@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Animal</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <h1>Cadê Meu Pet</h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/cadastrar">Cadastrar Animal</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Cadastrar Novo Animal</h2>
+        <form id="form-cadastro" action="/animais" method="POST">
+            <label>Nome: <input type="text" name="nome" required></label><br><br>
+            <label>Idade: <input type="number" name="idade" required></label><br><br>
+            <label>Raça: <input type="text" name="raca" required></label><br><br>
+            <label>Características: <input type="text" name="caracteristicas" required></label><br><br>
+            <label>Status: <input type="text" name="status" required></label><br><br>
+            <label>Localização: <input type="text" name="localizacao" required></label><br><br>
+            <button type="submit">Cadastrar Animal</button>
+        </form>
+    </main>
+
+    <script src="/script.js"></script>
+</body>
+</html>
