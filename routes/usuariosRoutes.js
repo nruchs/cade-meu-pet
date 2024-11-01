@@ -17,4 +17,7 @@ router.post("/registrar", usuariosController.registrarUsuario);
 router.post("/login", usuariosController.loginUsuario);
 router.get("/logout", verificarAutenticacao, usuariosController.logoutUsuario);
 
+router.get("/perfil", verificarAutenticacao, usuariosController.exibirPerfil);
+router.post("/perfil", verificarAutenticacao, usuariosController.atualizarPerfil);
+
 module.exports = router;
