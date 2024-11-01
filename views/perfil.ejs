@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title><%= titulo %></title>
+</head>
+<body>
+    <header>
+        <h1>Perfil de <%= usuario.Nome %></h1>
+    </header>
+    <main>
+        <p><strong>Nome:</strong> <%= usuario.Nome %></p>
+        <p><strong>Email:</strong> <%= usuario.Email %></p>
+        
+        <!-- Formulário para atualizar perfil -->
+        <h2>Atualizar Perfil</h2>
+        <form action="/usuarios/perfil" method="POST">
+            <label>Nome: <input type="text" name="nome" value="<%= usuario.Nome %>" required></label><br>
+            <label>Email: <input type="email" name="email" value="<%= usuario.Email %>" required></label><br>
+            <label>Nova Senha: <input type="password" name="senha"></label><br>
+            <button type="submit">Salvar Alterações</button>
+        </form>
+    </main>
+</body>
+</html>

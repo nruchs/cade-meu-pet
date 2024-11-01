@@ -51,3 +51,28 @@ exports.logoutUsuario = (req, res) => {
         res.send("Logout bem-sucedido!");
     });
 };
+
+exports.exibirPerfil = async (req, res) => {
+    try {
+        const usuario = await Usuario.buscarUsuarioPorId(req.session.usuarioId);
+        res.render("perfil", { titulo: "Meu Perfil", usuario });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Erro ao carregar o perfil do usuário.");
+    }
+};
+
+exports.atualizarPerfil = async (req, res) => {
+    const { nome, email, senha } = req.body;
+    try {
+        let senhaHash = null;
+        if (senha) {
+            senhaHash = await bcrypt.hash(senha, 10); // Hash da nova senha, se informada
+        }
+        await Usuario.atualizarUsuario(req.session.usuarioId, nome, email, senhaHash);
+        res.redirect("/usuarios/perfil");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Erro ao atualizar o perfil do usuário.");
+    }
+};
