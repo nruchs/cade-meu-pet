@@ -13,6 +13,19 @@ class Usuario {
             throw new Error("Erro ao criar usuário: " + error.message);
         }
     }
+
+    // Função para buscar um usuário pelo email
+    static async buscarUsuarioPorEmail(email) {
+        try {
+            const pool = await connectToDatabase();
+            const result = await pool.request()
+                .input("email", sql.NVarChar, email)
+                .query("SELECT * FROM Usuarios WHERE Email = @email");
+            return result.recordset[0];
+        } catch (error) {
+            throw new Error("Erro ao buscar usuário: " + error.message);
+        }
+    }
 }
 
 module.exports = Usuario;
