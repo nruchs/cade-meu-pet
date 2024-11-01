@@ -85,3 +85,18 @@ exports.exibirEditarAnimal = async (req, res) => {
     }
 };
 
+// Função para exibir detalhes de um animal específico
+exports.exibirDetalhesAnimal = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const animal = await Animal.buscarAnimalPorId(id);
+        if (animal) {
+            res.render("detalhes", { titulo: "Detalhes do Animal", animal });
+        } else {
+            res.status(404).send("Animal não encontrado.");
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Erro ao carregar os detalhes do animal.");
+    }
+};

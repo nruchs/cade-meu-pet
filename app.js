@@ -5,6 +5,7 @@ require("dotenv").config();
 
 const usuariosRoutes = require("./routes/usuariosRoutes");
 const animaisRoutes = require("./routes/animaisRoutes");
+const Animal = require("./models/Animal");
 
 const app = express();
 app.use(bodyParser.json());
@@ -16,9 +17,15 @@ app.set("views", path.join(__dirname, "views"));
 // Configurar arquivos estáticos
 app.use(express.static(path.join(__dirname, "public")));
 
-// Rota principal para renderizar a página inicial
-app.get("/", (req, res) => {
-    res.render("index", { titulo: "Cadê Meu Pet?" });
+// Rota principal para renderizar a página inicial com a lista de animais
+app.get("/", async (req, res) => {
+    try {
+        const animais = await Animal.listarAnimais(); // Busca a lista de animais
+        res.render("index", { titulo: "Cadê Meu Pet?", animais }); // Passa a lista para a view
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Erro ao carregar a lista de animais.");
+    }
 });
 // Rota para a página de cadastro de animais
 app.get("/cadastrar", (req, res) => {
