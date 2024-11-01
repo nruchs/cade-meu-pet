@@ -26,6 +26,7 @@
                     <p>Status: <%= animal.Status %></p>
                     <p>Localização: <%= animal.Localizacao %></p>
                     <a href="/animais/detalhes/<%= animal.AnimalID %>">Ver Detalhes</a>
+                    <button onclick="excluirAnimal(<%= animal.AnimalID %>)">Excluir</button>
                 </div>
             <% }) %>
         </div>

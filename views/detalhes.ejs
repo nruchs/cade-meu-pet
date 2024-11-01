@@ -25,7 +25,10 @@
             <p><strong>Status:</strong> <%= animal.Status %></p>
             <p><strong>Localização:</strong> <%= animal.Localizacao %></p>
         </div>
+        <button onclick="excluirAnimal(<%= animal.AnimalID %>)">Excluir</button>
         <a href="/">Voltar à Lista</a>
     </main>
+
+    <script src="/script.js"></script>
 </body>
 </html>
