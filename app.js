@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
+const session = require("express-session");
 require("dotenv").config();
 
 const usuariosRoutes = require("./routes/usuariosRoutes");
@@ -9,6 +10,15 @@ const Animal = require("./models/Animal");
 
 const app = express();
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Configuração da sessão
+app.use(session({
+    secret: "senha", //process.env.SESSION_SECRET
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false } // Para produção, mude para true e configure HTTPS
+}));
 
 // Configurar o EJS como template engine
 app.set("view engine", "ejs");
