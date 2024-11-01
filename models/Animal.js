@@ -70,6 +70,42 @@ class Animal {
             throw new Error("Erro ao excluir animal: " + error.message);
         }
     }
+
+    // Função para buscar animais com filtros
+    static async buscarComFiltros(raca, idade, status, localizacao) {
+        try {
+            const pool = await connectToDatabase();
+            let query = "SELECT * FROM Animais WHERE 1=1";
+            const inputs = {};
+
+            if (raca) {
+                query += " AND Raca = @raca";
+                inputs.raca = raca;
+            }
+            if (idade) {
+                query += " AND Idade = @idade";
+                inputs.idade = idade;
+            }
+            if (status) {
+                query += " AND Status = @status";
+                inputs.status = status;
+            }
+            if (localizacao) {
+                query += " AND Localizacao LIKE '%' + @localizacao + '%'";
+                inputs.localizacao = localizacao;
+            }
+
+            const request = pool.request();
+            for (const [key, value] of Object.entries(inputs)) {
+                request.input(key, sql.NVarChar, value);
+            }
+
+            const result = await request.query(query);
+            return result.recordset;
+        } catch (error) {
+            throw new Error("Erro ao buscar animais com filtros: " + error.message);
+        }
+    }
 }
 
 module.exports = Animal;
