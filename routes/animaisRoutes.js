@@ -9,6 +9,6 @@ router.put("/:id", animaisController.atualizarAnimal);
 router.delete("/:id", animaisController.excluirAnimal);
 router.get("/editar/:id", animaisController.exibirEditarAnimal);
 router.post("/editar/:id", animaisController.atualizarAnimal);
-
+router.get("/detalhes/:id", animaisController.exibirDetalhesAnimal);
 
 module.exports = router;

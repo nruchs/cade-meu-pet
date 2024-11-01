@@ -17,7 +17,18 @@
 
     <main>
         <h2>Animais Perdidos</h2>
-        <div id="animais-lista"></div>
+        <div id="animais-lista">
+            <% animais.forEach(animal => { %>
+                <div class="animal-card">
+                    <h3><%= animal.Nome %></h3>
+                    <p>Idade: <%= animal.Idade %> anos</p>
+                    <p>Raça: <%= animal.Raca %></p>
+                    <p>Status: <%= animal.Status %></p>
+                    <p>Localização: <%= animal.Localizacao %></p>
+                    <a href="/animais/detalhes/<%= animal.AnimalID %>">Ver Detalhes</a>
+                </div>
+            <% }) %>
+        </div>
     </main>
 
     <script src="/script.js"></script>
