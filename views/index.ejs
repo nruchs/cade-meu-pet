@@ -30,6 +30,28 @@
                 </div>
             <% }) %>
         </div>
+
+        <form action="/animais/busca" method="GET" class="busca-avancada">
+            <h2>Busca Avançada</h2>
+            <label>Raça:
+                <input type="text" name="raca" placeholder="Raça do animal">
+            </label>
+            <label>Idade:
+                <input type="number" name="idade" placeholder="Idade (em anos)">
+            </label>
+            <label>Status:
+                <select name="status">
+                    <option value="">Selecione</option>
+                    <option value="perdido">Perdido</option>
+                    <option value="encontrado">Encontrado</option>
+                    <option value="encontrado">Para Doação</option>
+                </select>
+            </label>
+            <label>Localização:
+                <input type="text" name="localizacao" placeholder="Cidade ou Bairro">
+            </label>
+            <button type="submit">Buscar</button>
+        </form>
     </main>
 
     <script src="/script.js"></script>

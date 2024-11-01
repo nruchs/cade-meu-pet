@@ -100,3 +100,15 @@ exports.exibirDetalhesAnimal = async (req, res) => {
         res.status(500).send("Erro ao carregar os detalhes do animal.");
     }
 };
+
+// Função para buscar animais com filtros aplicados
+exports.buscarAnimaisComFiltros = async (req, res) => {
+    const { raca, idade, status, localizacao } = req.query;
+    try {
+        const animais = await Animal.buscarComFiltros(raca, idade, status, localizacao);
+        res.render("resultados", { titulo: "Resultados da Busca", animais });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Erro ao buscar animais.");
+    }
+};
