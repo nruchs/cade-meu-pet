@@ -5,6 +5,9 @@
     <title>Registrar</title>
 </head>
 <body>
+    <header>
+        <%- include("partials/header") %>
+    </header>
     <h1>Registrar</h1>
     <form action="/usuarios/registrar" method="POST">
         <label>Nome: <input type="text" name="nome" required></label><br>
