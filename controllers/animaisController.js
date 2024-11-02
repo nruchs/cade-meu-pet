@@ -1,13 +1,22 @@
 const Animal = require("../models/Animal");
 
 exports.criarAnimal = async (req, res) => {
-    const { usuarioId, nome, idade, raca, caracteristicas, status, localizacao } = req.body;
+    const usuarioId = req.session.usuarioId;
+    const {nome, idade, raca, caracteristicas, status, localizacao } = req.body;
+    const foto = req.file ? `/uploads/${req.file.filename}` : null;
+
+    if (!nome || !usuarioId) {
+        req.session.mensagemErro = "Nome e ID do usuário são obrigatórios.";
+        return res.redirect("/animais/cadastrar"); // Redireciona para o formulário em caso de erro
+    }
+
     try {
-        await Animal.criarAnimal(usuarioId, nome, idade, raca, caracteristicas, status, localizacao);
-        res.status(201).send("Animal cadastrado com sucesso!");
+        await Animal.criarAnimal(usuarioId, nome, idade, raca, caracteristicas, status, localizacao, foto);
+        req.session.mensagemSucesso = "Animal cadastrado com sucesso!";
+        res.redirect("/");
     } catch (error) {
-        console.error(error);
-        res.status(500).send("Erro ao cadastrar animal.");
+        req.session.mensagemErro = "Erro ao cadastrar animal. Tente novamente.";
+        res.redirect("/animais/cadastrar");
     }
 };
 

@@ -13,13 +13,25 @@
 
     <main>
         <h2>Cadastrar Novo Animal</h2>
-        <form id="form-cadastro" action="/animais" method="POST">
+        <form id="form-cadastro" action="/animais" method="POST" enctype="multipart/form-data">
             <label>Nome: <input type="text" name="nome" required></label><br><br>
             <label>Idade: <input type="number" name="idade" required></label><br><br>
             <label>Raça: <input type="text" name="raca" required></label><br><br>
             <label>Características: <input type="text" name="caracteristicas" required></label><br><br>
-            <label>Status: <input type="text" name="status" required></label><br><br>
+            <label>Status:
+                <select name="status" required>
+                    <option value="Perdido">Perdido</option>
+                    <option value="Encontrado">Encontrado</option>
+                    <option value="Adocao">Adoção</option>
+                </select>
+            </label><br><br>
             <label>Localização: <input type="text" name="localizacao" required></label><br><br>
+            <label>Foto:
+                <input type="file" name="foto" accept="image/*">
+            </label><br><br>
+
+            <form id="form-cadastro" action="/animais" method="POST">
+
             <button type="submit">Cadastrar Animal</button>
         </form>
     </main>

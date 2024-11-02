@@ -38,13 +38,15 @@
         <div id="animais-lista">
             <% animais.forEach(animal => { %>
                 <div class="animal-card">
+                    <% if (animal.Foto) { %>
+                        <img src="<%= animal.Foto %>" alt="<%= animal.Nome %>" width="100" height="100">
+                    <% } %>
                     <h3><%= animal.Nome %></h3>
                     <p>Idade: <%= animal.Idade %> anos</p>
                     <p>Raça: <%= animal.Raca %></p>
                     <p>Status: <%= animal.Status %></p>
                     <p>Localização: <%= animal.Localizacao %></p>
                     <a href="/animais/detalhes/<%= animal.AnimalID %>">Ver Detalhes</a>
-                    <button onclick="excluirAnimal(<%= animal.AnimalID %>)">Excluir</button>
                 </div>
             <% }) %>
         </div>
