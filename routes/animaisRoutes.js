@@ -17,6 +17,7 @@ router.get("/cadastrar", verificarAutenticacao, (req, res) => {
     res.render("cadastrar", { titulo: "Cadastrar Animal" });
 });
 
+router.get("/busca", animaisController.buscarAnimaisComFiltros);
 router.post("/", verificarAutenticacao, upload.single("foto"), animaisController.criarAnimal);
 router.get("/", animaisController.listarAnimais);
 router.get("/:id", animaisController.buscarAnimalPorId);
@@ -26,5 +27,4 @@ router.get("/editar/:id", verificarAutenticacao, animaisController.exibirEditarA
 router.post("/editar/:id", verificarAutenticacao, animaisController.atualizarAnimal);
 router.get("/detalhes/:id", animaisController.exibirDetalhesAnimal);
 
-router.get("/busca", animaisController.buscarAnimaisComFiltros);
 module.exports = router;
