@@ -20,6 +20,13 @@ app.use(session({
     cookie: { secure: false } // Para produção, mude para true e configure HTTPS
 }));
 
+// Middleware para definir a variável usuarioAutenticado nas views
+app.use((req, res, next) => {
+    res.locals.usuarioAutenticado = !!req.session.usuarioId;
+    next();
+});
+
+
 // Configurar o EJS como template engine
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));

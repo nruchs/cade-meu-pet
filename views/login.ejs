@@ -5,6 +5,9 @@
     <title>Login</title>
 </head>
 <body>
+    <header>
+        <%- include("partials/header") %>
+    </header>
     <h1>Login</h1>
     <form action="/usuarios/login" method="POST">
         <label>Email: <input type="email" name="email" required></label><br>
