@@ -14,10 +14,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Configuração da sessão
 app.use(session({
-    secret: "senha", //process.env.SESSION_SECRET
+    secret: process.env.SESSION_SECRET || "senha",
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false } // Para produção, mude para true e configure HTTPS
+    cookie: { secure: false }
 }));
 
 // Middleware para definir a variável usuarioAutenticado nas views
@@ -26,12 +26,18 @@ app.use((req, res, next) => {
     next();
 });
 
+// Middleware para disponibilizar mensagens nas views
+app.use((req, res, next) => {
+    res.locals.mensagemSucesso = req.session.mensagemSucesso;
+    res.locals.mensagemErro = req.session.mensagemErro;
+    delete req.session.mensagemSucesso;
+    delete req.session.mensagemErro;
+    next();
+});
 
-// Configurar o EJS como template engine
+// Configurar o EJS como template engine e arquivos estáticos
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-
-// Configurar arquivos estáticos
 app.use(express.static(path.join(__dirname, "public")));
 
 // Rota principal para renderizar a página inicial com a lista de animais
@@ -40,10 +46,11 @@ app.get("/", async (req, res) => {
         const animais = await Animal.listarAnimais(); // Busca a lista de animais
         res.render("index", { titulo: "Cadê Meu Pet?", animais }); // Passa a lista para a view
     } catch (error) {
-        console.error(error);
+        console.error("Erro ao carregar a lista de animais:", error);
         res.status(500).send("Erro ao carregar a lista de animais.");
     }
 });
+
 // Rota para a página de cadastro de animais
 app.get("/cadastrar", (req, res) => {
     res.render("cadastrar", { titulo: "Cadastrar Animal" });
@@ -52,6 +59,12 @@ app.get("/cadastrar", (req, res) => {
 // Usando as rotas para usuários e animais
 app.use("/usuarios", usuariosRoutes);
 app.use("/animais", animaisRoutes);
+
+// Middleware de tratamento de erros para feedback de erros consistentes
+app.use((err, req, res, next) => {
+    console.error("Erro não tratado:", err);
+    res.status(500).send("Algo deu errado! Tente novamente mais tarde.");
+});
 
 const PORT = 3000;
 app.listen(PORT, () => {

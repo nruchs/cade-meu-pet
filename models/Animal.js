@@ -1,7 +1,7 @@
 const { connectToDatabase, sql } = require("../config/database");
 
 class Animal {
-    static async criarAnimal(usuarioId, nome, idade, raca, caracteristicas, status, localizacao) {
+    static async criarAnimal(usuarioId, nome, idade, raca, caracteristicas, status, localizacao, foto) {
         try {
             const pool = await connectToDatabase();
             await pool.request()
@@ -12,7 +12,8 @@ class Animal {
                 .input("caracteristicas", sql.NVarChar, caracteristicas)
                 .input("status", sql.NVarChar, status)
                 .input("localizacao", sql.NVarChar, localizacao)
-                .query(`INSERT INTO Animais (UsuarioID, Nome, Idade, Raca, Caracteristicas, Status, Localizacao) VALUES (@usuarioId, @nome, @idade, @raca, @caracteristicas, @status, @localizacao)`);
+                .input("foto", sql.NVarChar, foto)
+                .query(`INSERT INTO Animais (UsuarioID, Nome, Idade, Raca, Caracteristicas, Status, Localizacao, Foto) VALUES (@usuarioId, @nome, @idade, @raca, @caracteristicas, @status, @localizacao, @foto)`);
         } catch (error) {
             throw new Error("Erro ao criar animal: " + error.message);
         }
