@@ -1,3 +1,4 @@
+const Animal = require("../models/Animal");
 const Usuario = require("../models/Usuario");
 const bcrypt = require("bcrypt");
 
@@ -21,7 +22,8 @@ exports.registrarUsuario = async (req, res) => {
         res.redirect("/usuarios/login");
     } catch (error) {
         console.error(error);
-        res.status(500).send("Erro ao registrar usuário.");
+        req.session.mensagemErro = "Erro ao registrar usuário.";
+        res.redirect("/usuarios/registrar");
     }
 };
 
@@ -32,13 +34,18 @@ exports.loginUsuario = async (req, res) => {
         const usuario = await Usuario.buscarUsuarioPorEmail(email);
         if (usuario && await bcrypt.compare(senha, usuario.Senha)) {
             req.session.usuarioId = usuario.UsuarioID;
-            res.redirect("/usuarios/perfil");
+            const redirectTo = req.session.redirectTo || "/usuarios/perfil";
+            delete req.session.redirectTo;
+            res.redirect(redirectTo);
         } else {
-            res.status(401).send("Credenciais inválidas.");
+            req.session.mensagemErro = "Credenciais inválidas. Tente novamente.";
+            req.session.redirectUrl = "/usuarios/login";
+            res.redirect("/usuarios/login");
         }
     } catch (error) {
-        console.error(error);
-        res.status(500).send("Erro ao autenticar usuário.");
+        req.session.mensagemErro = "Erro ao autenticar usuário. Cadastre-se!";
+        req.session.redirectUrl = "/usuarios/registrar";
+        res.redirect("/usuarios/registrar");
     }
 };
 
@@ -46,19 +53,22 @@ exports.loginUsuario = async (req, res) => {
 exports.logoutUsuario = (req, res) => {
     req.session.destroy(err => {
         if (err) {
-            return res.status(500).send("Erro ao encerrar a sessão.");
+            req.session.mensagemErro = "Erro ao encerrar a sessão.";
         }
-        res.redirect("/usuarios/login");
+        res.redirect("/usuarios/perfil");
     });
 };
 
 exports.exibirPerfil = async (req, res) => {
+    const usuarioId = req.session.usuarioId;
     try {
-        const usuario = await Usuario.buscarUsuarioPorId(req.session.usuarioId);
-        res.render("perfil", { titulo: "Meu Perfil", usuario });
+        const usuario = await Usuario.buscarUsuarioPorId(usuarioId);
+        const animais = await Animal.listarAnimaisPorUsuario(usuarioId) || [];
+        res.render("perfil", { titulo: "Meu Perfil", usuario, animais });
     } catch (error) {
         console.error(error);
-        res.status(500).send("Erro ao carregar o perfil do usuário.");
+        req.session.mensagemErro = "Erro ao carregar o perfil.";
+        res.redirect("/");
     }
 };
 
@@ -73,6 +83,7 @@ exports.atualizarPerfil = async (req, res) => {
         res.redirect("/usuarios/perfil");
     } catch (error) {
         console.error(error);
-        res.status(500).send("Erro ao atualizar o perfil do usuário.");
+        req.session.mensagemErro = "Erro ao atualizar o perfil do usuário.";
+        res.redirect("/usuarios/perfil");
     }
 };

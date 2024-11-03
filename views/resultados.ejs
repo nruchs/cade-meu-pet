@@ -10,6 +10,7 @@
         <h1>Resultados da Busca</h1>
         <a href="/">Voltar à Página Inicial</a>
     </header>
+    <%- include("partials/messages") %>
     <main>
         <% if (animais.length > 0) { %>
             <% animais.forEach(animal => { %>

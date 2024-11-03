@@ -7,11 +7,35 @@
 <body>
     <header>
         <%- include("partials/header") %>
-        <h1>Perfil de <%= usuario.Nome %></h1>
     </header>
+    <%- include("partials/messages") %>
     <main>
-        <p><strong>Nome:</strong> <%= usuario.Nome %></p>
+        <h1>Perfil do Usuário</h1>
+        <h2>Bem-vindo, <%= usuario.Nome %>!</h2>
         <p><strong>Email:</strong> <%= usuario.Email %></p>
+
+        <h2>Animais Cadastrados</h2>
+        <div id="animais-lista">
+        <% if (animais.length > 0) { %>
+            <% animais.forEach(animal => { %>
+                <div class="animal-card">
+                    <% if (animal.Foto) { %>
+                        <img src="<%= animal.Foto %>" alt="<%= animal.Nome %>" width="100" height="100">
+                    <% } %>
+                    <h3><%= animal.Nome %></h3>
+                    <p>Idade: <%= animal.Idade %> anos</p>
+                    <p>Raça: <%= animal.Raca %></p>
+                    <p>Status: <%= animal.Status %></p>
+                    <p>Localização: <%= animal.Localizacao %></p>
+                    <a href="/animais/detalhes/<%= animal.AnimalID %>">Ver Detalhes</a>
+                    <a href="/animais/editar/<%= animal.AnimalID %>">Editar</a>
+                    <button onclick="excluirAnimal(<%= animal.AnimalID %>)">Excluir</button>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>Você não cadastrou nenhum animal.</p>
+        <% } %>
+    </div>
         
         <!-- Formulário para atualizar perfil -->
         <h2>Atualizar Perfil</h2>
@@ -22,5 +46,6 @@
             <button type="submit">Salvar Alterações</button>
         </form>
     </main>
+    <script src="/script.js"></script>
 </body>
 </html>

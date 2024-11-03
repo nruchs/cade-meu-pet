@@ -1,15 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const usuariosController = require("../controllers/usuariosController");
-
-// Função middleware para verificar autenticação
-function verificarAutenticacao(req, res, next) {
-    if (req.session.usuarioId) {
-        next(); // Usuário autenticado, permite o acesso
-    } else {
-        res.redirect("/usuarios/login"); // Redireciona para a página de login
-    }
-}
+const verificarAutenticacao = require("../middlewares/autenticacao");
 
 // Rota para exibir a página de registro
 router.get("/registrar", (req, res) => {

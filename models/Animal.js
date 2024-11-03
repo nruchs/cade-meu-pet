@@ -72,6 +72,18 @@ class Animal {
         }
     }
 
+    static async listarAnimaisPorUsuario(usuarioId) {
+        try {
+            const pool = await connectToDatabase();
+            const result = await pool.request()
+                .input("usuarioId", sql.Int, usuarioId)
+                .query("SELECT * FROM Animais WHERE UsuarioID = @usuarioId");
+            return result.recordset;
+        } catch (error) {
+            throw new Error("Erro ao listar animais do usuário: " + error.message);
+        }
+    }    
+
     // Função para buscar animais com filtros
     static async buscarComFiltros(raca, idade, status, localizacao) {
         try {
@@ -108,5 +120,6 @@ class Animal {
         }
     }
 }
+
 
 module.exports = Animal;
