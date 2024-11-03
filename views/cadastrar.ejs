@@ -4,14 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar Animal</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <header>
         <%- include("partials/header") %>
     </header>
-    <%- include("partials/messages") %>
+    
     <main>
+        <div class="form-container">
+            <%- include("partials/messages") %>
+        
         <h2>Cadastrar Novo Animal</h2>
         <form id="form-cadastro" action="/animais" method="POST" enctype="multipart/form-data">
             <label>Nome: <input type="text" name="nome" required></label><br><br>
@@ -34,8 +37,9 @@
 
             <button type="submit">Cadastrar Animal</button>
         </form>
+    </div>
     </main>
 
-    <script src="/script.js"></script>
+    <script src="/js/script.js"></script>
 </body>
 </html>

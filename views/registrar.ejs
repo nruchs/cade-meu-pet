@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Registrar</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <header>
         <%- include("partials/header") %>
     </header>
+    <div class="form-container">
     <%- include("partials/messages") %>
     <h1>Registrar</h1>
     <form action="/usuarios/registrar" method="POST">
@@ -16,5 +18,7 @@
         <label>Senha: <input type="password" name="senha" required></label><br>
         <button type="submit">Registrar</button>
     </form>
+    </div>
+    <script src="/js/script.js"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= titulo %></title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <header>
@@ -12,10 +12,11 @@
     </header>
     <%- include("partials/messages") %>
     <main>
-        <h2>Detalhes do Animal</h2>
-        <div class="animal-detalhes">
+        <div class="container">
+            <h2>Detalhes do Animal</h2>
+        <div class="animal-detalhes animal-card">
             <% if (animal.Foto) { %>
-                <img src="<%= animal.Foto %>" alt="<%= animal.Nome %>" width="100" height="100">
+                <img src="<%= animal.Foto %>" alt="<%= animal.Nome %>" width="200" height="200">
             <% } %>
             <p><strong>Nome:</strong> <%= animal.Nome %></p>
             <p><strong>Idade:</strong> <%= animal.Idade %> anos</p>
@@ -23,10 +24,12 @@
             <p><strong>Características:</strong> <%= animal.Caracteristicas %></p>
             <p><strong>Status:</strong> <%= animal.Status %></p>
             <p><strong>Localização:</strong> <%= animal.Localizacao %></p>
+            <a href="/" class="btn">Voltar</a>
         </div>
-        <a href="/">Voltar à Lista</a>
+    </div>
+
     </main>
 
-    <script src="/script.js"></script>
+    <script src="/js/script.js"></script>
 </body>
 </html>
