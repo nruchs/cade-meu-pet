@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title><%= titulo %></title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <header>
         <%- include("partials/header") %>
-        <h1>Resultados da Busca</h1>
-        <a href="/">Voltar à Página Inicial</a>
     </header>
     <%- include("partials/messages") %>
     <main>
+        <div class="container">
+        <h1>Resultados da Busca</h1>
+        <a href="/" class="btn">Voltar</a>
         <% if (animais.length > 0) { %>
             <% animais.forEach(animal => { %>
                 <div class="animal-card">
@@ -20,12 +22,14 @@
                     <p>Idade: <%= animal.Idade %> anos</p>
                     <p>Status: <%= animal.Status %></p>
                     <p>Localização: <%= animal.Localizacao %></p>
-                    <a href="/animais/detalhes/<%= animal.AnimalID %>">Ver Detalhes</a>
+                    <a href="/animais/detalhes/<%= animal.AnimalID %>" class="btn">Ver Detalhes</a>
                 </div>
             <% }) %>
         <% } else { %>
             <p>Nenhum animal encontrado com os critérios de busca.</p>
         <% } %>
+    </div>
     </main>
+    <script src="/js/script.js"></script>
 </body>
 </html>

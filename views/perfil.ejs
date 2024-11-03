@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title><%= titulo %></title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <header>
@@ -10,9 +11,8 @@
     </header>
     <%- include("partials/messages") %>
     <main>
-        <h1>Perfil do Usuário</h1>
+        <div class="container">
         <h2>Bem-vindo, <%= usuario.Nome %>!</h2>
-        <p><strong>Email:</strong> <%= usuario.Email %></p>
 
         <h2>Animais Cadastrados</h2>
         <div id="animais-lista">
@@ -37,6 +37,7 @@
         <% } %>
     </div>
         
+    <div class="form-container">
         <!-- Formulário para atualizar perfil -->
         <h2>Atualizar Perfil</h2>
         <form action="/usuarios/perfil" method="POST">
@@ -45,7 +46,9 @@
             <label>Nova Senha: <input type="password" name="senha"></label><br>
             <button type="submit">Salvar Alterações</button>
         </form>
+    </div>
+    </div>
     </main>
-    <script src="/script.js"></script>
+    <script src="/js/script.js"></script>
 </body>
 </html>

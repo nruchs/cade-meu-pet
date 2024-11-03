@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= titulo %></title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <header>
         <%- include("partials/header") %>
     </header>
-    <%- include("partials/messages") %>
     <main>
+        <div class="container">
+            <%- include("partials/messages") %>
         <form action="/animais/busca" method="GET" class="busca-avancada">
             <h2>Busca Avançada</h2>
             <label>Raça:
@@ -34,24 +35,25 @@
             <button type="submit">Buscar</button>
         </form>
 
-        <h2>Animais Perdidos</h2>
-        <div id="animais-lista">
-            <% animais.forEach(animal => { %>
-                <div class="animal-card">
-                    <% if (animal.Foto) { %>
-                        <img src="<%= animal.Foto %>" alt="<%= animal.Nome %>" width="200" height="200">
-                    <% } %>
-                    <h3><%= animal.Nome %></h3>
-                    <p>Idade: <%= animal.Idade %> anos</p>
-                    <p>Raça: <%= animal.Raca %></p>
-                    <p>Status: <%= animal.Status %></p>
-                    <p>Localização: <%= animal.Localizacao %></p>
-                    <a href="/animais/detalhes/<%= animal.AnimalID %>">Ver Detalhes</a>
-                </div>
-            <% }) %>
+            <h2>Animais Perdidos</h2>
+            <div id="animais-lista">
+                <% animais.forEach(animal => { %>
+                    <div class="animal-card">
+                        <% if (animal.Foto) { %>
+                            <img src="<%= animal.Foto %>" alt="<%= animal.Nome %>" width="200" height="200">
+                        <% } %>
+                        <h3><%= animal.Nome %></h3>
+                        <p>Idade: <%= animal.Idade %> anos</p>
+                        <p>Raça: <%= animal.Raca %></p>
+                        <p>Status: <%= animal.Status %></p>
+                        <p>Localização: <%= animal.Localizacao %></p>
+                        <a href="/animais/detalhes/<%= animal.AnimalID %>" class="btn">Ver Detalhes</a>
+                    </div>
+                <% }) %>
+            </div>
         </div>
     </main>
 
-    <script src="/script.js"></script>
+    <script src="/js/script.js"></script>
 </body>
 </html>

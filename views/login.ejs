@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <header>
         <%- include("partials/header") %>
     </header>
+    <div class="form-container">
     <%- include("partials/messages") %>
     <h1>Login</h1>
     <form action="/usuarios/login" method="POST">
@@ -17,5 +19,7 @@
     </form>
 
     <p>Não tem uma conta? <a href="/usuarios/registrar">Registre-se aqui</a></p>
+    </div>
+    <script src="/js/script.js"></script>
 </body>
 </html>
