@@ -8,11 +8,14 @@
     <header>
         <%- include("partials/header") %>
     </header>
+    <%- include("partials/messages") %>
     <h1>Login</h1>
     <form action="/usuarios/login" method="POST">
         <label>Email: <input type="email" name="email" required></label><br>
         <label>Senha: <input type="password" name="senha" required></label><br>
         <button type="submit">Login</button>
     </form>
+
+    <p>Não tem uma conta? <a href="/usuarios/registrar">Registre-se aqui</a></p>
 </body>
 </html>

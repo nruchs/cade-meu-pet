@@ -1,16 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const animaisController = require("../controllers/animaisController");
+const verificarAutenticacao = require("../middlewares/autenticacao");
 const upload = require("../config/multer");
-
-// Middleware de autenticação
-function verificarAutenticacao(req, res, next) {
-    if (req.session.usuarioId) {
-        next(); // Usuário autenticado, prossegue
-    } else {
-        res.redirect("/usuarios/login"); // Redireciona para a página de login
-    }
-}
 
 // Rotas protegidas
 router.get("/cadastrar", verificarAutenticacao, (req, res) => {

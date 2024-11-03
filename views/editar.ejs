@@ -10,16 +10,25 @@
     <header>
         <%- include("partials/header") %>
     </header>
-
+    <%- include("partials/messages") %>
     <main>
         <h2>Editar Animal</h2>
         <form id="form-edicao" action="/animais/editar/<%= animal.AnimalID %>" method="POST">
-            <label>Nome: <input type="text" name="nome" value="<%= animal.Nome %>" required></label><br><br>
-            <label>Idade: <input type="number" name="idade" value="<%= animal.Idade %>" required></label><br><br>
-            <label>Raça: <input type="text" name="raca" value="<%= animal.Raca %>" required></label><br><br>
-            <label>Características: <input type="text" name="caracteristicas" value="<%= animal.Caracteristicas %>" required></label><br><br>
-            <label>Status: <input type="text" name="status" value="<%= animal.Status %>" required></label><br><br>
-            <label>Localização: <input type="text" name="localizacao" value="<%= animal.Localizacao %>" required></label><br><br>
+            <label>Nome: <input type="text" name="nome" value="<%= animal.Nome %>" ></label><br><br>
+            <label>Idade: <input type="number" name="idade" value="<%= animal.Idade %>" ></label><br><br>
+            <label>Raça: <input type="text" name="raca" value="<%= animal.Raca %>" ></label><br><br>
+            <label>Características: <input type="text" name="caracteristicas" value="<%= animal.Caracteristicas %>" ></label><br><br>
+            <label>Status:
+                <select name="status" required>
+                    <option value="Perdido">Perdido</option>
+                    <option value="Encontrado">Encontrado</option>
+                    <option value="Adocao">Adoção</option>
+                </select>
+            </label><br><br>
+            <label>Localização: <input type="text" name="localizacao" value="<%= animal.Localizacao %>" ></label><br><br>
+            <label>Foto:
+                <input type="file" name="foto" accept="image/*">
+            </label><br><br>
             <button type="submit">Salvar Alterações</button>
         </form>
     </main>

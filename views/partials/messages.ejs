@@ -1,0 +1,16 @@
+<% if (mensagemSucesso) { %>
+    <div class="alert alert-success" id="mensagem-feedback"><%= mensagemSucesso %></div>
+    <script>
+        setTimeout(() => {
+            window.location.href = "<%= redirectUrl || '/' %>";
+        }, 3000); // 3 segundos
+    </script>
+<% } %>
+<% if (mensagemErro) { %>
+    <div class="alert alert-danger" id="mensagem-feedback"><%= mensagemErro %></div>
+    <script>
+        setTimeout(() => {
+            window.location.href = "<%= redirectUrl || '/' %>";
+        }, 3000); // 3 segundos
+    </script>
+<% } %>

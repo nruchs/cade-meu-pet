@@ -26,14 +26,20 @@ app.use((req, res, next) => {
     next();
 });
 
-// Middleware para disponibilizar mensagens nas views
+// Middleware para disponibilizar mensagens e URL de redirecionamento nas views
 app.use((req, res, next) => {
     res.locals.mensagemSucesso = req.session.mensagemSucesso;
     res.locals.mensagemErro = req.session.mensagemErro;
+    res.locals.redirectUrl = req.session.redirectUrl;
+    
+    // Remove as mensagens e URL de redirecionamento após a exibição
     delete req.session.mensagemSucesso;
     delete req.session.mensagemErro;
+    delete req.session.redirectUrl;
+    
     next();
 });
+
 
 // Configurar o EJS como template engine e arquivos estáticos
 app.set("view engine", "ejs");
@@ -49,11 +55,6 @@ app.get("/", async (req, res) => {
         console.error("Erro ao carregar a lista de animais:", error);
         res.status(500).send("Erro ao carregar a lista de animais.");
     }
-});
-
-// Rota para a página de cadastro de animais
-app.get("/cadastrar", (req, res) => {
-    res.render("cadastrar", { titulo: "Cadastrar Animal" });
 });
 
 // Usando as rotas para usuários e animais

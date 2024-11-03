@@ -7,15 +7,18 @@ exports.criarAnimal = async (req, res) => {
 
     if (!nome || !usuarioId) {
         req.session.mensagemErro = "Nome e ID do usuário são obrigatórios.";
-        return res.redirect("/animais/cadastrar"); // Redireciona para o formulário em caso de erro
+        req.session.redirectUrl = "/animais/cadastrar";
+        return res.redirect("/animais/cadastrar");
     }
 
     try {
         await Animal.criarAnimal(usuarioId, nome, idade, raca, caracteristicas, status, localizacao, foto);
         req.session.mensagemSucesso = "Animal cadastrado com sucesso!";
-        res.redirect("/");
+        req.session.redirectUrl = "/usuarios/perfil"; // URL para redirecionar após sucesso
+        res.redirect("/usuarios/perfil");
     } catch (error) {
         req.session.mensagemErro = "Erro ao cadastrar animal. Tente novamente.";
+        req.session.redirectUrl = "/animais/cadastrar";
         res.redirect("/animais/cadastrar");
     }
 };
@@ -47,34 +50,52 @@ exports.buscarAnimalPorId = async (req, res) => {
 };
 
 exports.atualizarAnimal = async (req, res) => {
+    const usuarioId = req.session.usuarioId;
     const { id } = req.params;
     const { nome, idade, raca, caracteristicas, status, localizacao } = req.body;
+
     try {
+        const animal = await Animal.buscarAnimalPorId(id);
+        if (!animal || animal.UsuarioID !== usuarioId) {
+            req.session.mensagemErro = "Acesso negado. Você não pode editar este animal.";
+            req.session.redirectUrl = "/usuarios/perfil";
+            return res.redirect("/usuarios/perfil");
+        }
+
         const resultado = await Animal.atualizarAnimal(id, nome, idade, raca, caracteristicas, status, localizacao);
         if (resultado) {
-            res.status(200).send("Animal atualizado com sucesso!");
-            res.redirect("/"); 
+            req.session.mensagemSucesso = "Animal atualizado com sucesso!";
+            res.redirect("/usuarios/perfil");
         } else {
             res.status(404).send("Animal não encontrado.");
         }
     } catch (error) {
-        console.error(error);
-        res.status(500).send("Erro ao atualizar animal.");
+        req.session.mensagemErro = "Erro ao atualizar o animal.";
+        req.session.redirectUrl = "/usuarios/perfil";
+        res.redirect("/usuarios/perfil");
     }
 };
 
 exports.excluirAnimal = async (req, res) => {
+    const usuarioId = req.session.usuarioId;
     const { id } = req.params;
+
     try {
-        const resultado = await Animal.excluirAnimal(id);
-        if (resultado) {
-            res.status(200).send("Animal excluído com sucesso!");
-        } else {
-            res.status(404).send("Animal não encontrado.");
+        const animal = await Animal.buscarAnimalPorId(id);
+        if (!animal || animal.UsuarioID !== usuarioId) {
+            req.session.mensagemErro = "Acesso negado. Você não pode excluir este animal.";
+            req.session.redirectUrl = "/usuarios/perfil";
+            return res.redirect("/usuarios/perfil");
         }
+
+        await Animal.excluirAnimal(id);
+        req.session.mensagemSucesso = "Animal excluído com sucesso!";
+        req.session.redirectUrl = "/usuarios/perfil";
+        res.redirect("/usuarios/perfil");
     } catch (error) {
-        console.error(error);
-        res.status(500).send("Erro ao excluir animal.");
+        req.session.mensagemErro = "Erro ao excluir o animal.";
+        req.session.redirectUrl = "/usuarios/perfil";
+        res.redirect("/usuarios/perfil");
     }
 };
 

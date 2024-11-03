@@ -10,10 +10,13 @@
     <header>
         <%- include("partials/header") %>
     </header>
-
+    <%- include("partials/messages") %>
     <main>
         <h2>Detalhes do Animal</h2>
         <div class="animal-detalhes">
+            <% if (animal.Foto) { %>
+                <img src="<%= animal.Foto %>" alt="<%= animal.Nome %>" width="100" height="100">
+            <% } %>
             <p><strong>Nome:</strong> <%= animal.Nome %></p>
             <p><strong>Idade:</strong> <%= animal.Idade %> anos</p>
             <p><strong>Raça:</strong> <%= animal.Raca %></p>
@@ -21,7 +24,6 @@
             <p><strong>Status:</strong> <%= animal.Status %></p>
             <p><strong>Localização:</strong> <%= animal.Localizacao %></p>
         </div>
-        <button onclick="excluirAnimal(<%= animal.AnimalID %>)">Excluir</button>
         <a href="/">Voltar à Lista</a>
     </main>
 

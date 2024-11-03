@@ -10,7 +10,7 @@
     <header>
         <%- include("partials/header") %>
     </header>
-
+    <%- include("partials/messages") %>
     <main>
         <h2>Cadastrar Novo Animal</h2>
         <form id="form-cadastro" action="/animais" method="POST" enctype="multipart/form-data">
@@ -27,7 +27,7 @@
             </label><br><br>
             <label>Localização: <input type="text" name="localizacao" required></label><br><br>
             <label>Foto:
-                <input type="file" name="foto" accept="image/*">
+                <input type="file" name="foto" accept="image/*" required>
             </label><br><br>
 
             <form id="form-cadastro" action="/animais" method="POST">
