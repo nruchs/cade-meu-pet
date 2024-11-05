@@ -117,19 +117,15 @@ exports.excluirAnimal = async (req, res) => {
     try {
         const animal = await Animal.buscarAnimalPorId(id);
         if (!animal || animal.UsuarioID !== usuarioId) {
-            req.session.mensagemErro = "Acesso negado. Você não pode excluir este animal.";
-            req.session.redirectUrl = "/usuarios/perfil";
-            return res.redirect("/usuarios/perfil");
+            console.error("Acesso negado ao tentar excluir o animal:", id);
+            return res.status(403).json({ mensagemErro: "Acesso negado. Você não pode excluir este animal." });
         }
 
         await Animal.excluirAnimal(id);
-        req.session.mensagemSucesso = "Animal excluído com sucesso!";
-        req.session.redirectUrl = "/usuarios/perfil";
-        res.redirect("/usuarios/perfil");
+        return res.sendStatus(204);
     } catch (error) {
-        req.session.mensagemErro = "Erro ao excluir o animal.";
-        req.session.redirectUrl = "/usuarios/perfil";
-        res.redirect("/usuarios/perfil");
+        console.error("Erro ao excluir o animal:", error.message);
+        return res.status(500).json({ mensagemErro: "Erro ao excluir o animal." });
     }
 };
 
