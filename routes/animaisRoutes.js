@@ -16,7 +16,7 @@ router.get("/:id", animaisController.buscarAnimalPorId);
 router.put("/:id", verificarAutenticacao, animaisController.atualizarAnimal);
 router.delete("/:id", verificarAutenticacao, animaisController.excluirAnimal);
 router.get("/editar/:id", verificarAutenticacao, animaisController.exibirEditarAnimal);
-router.post("/editar/:id", verificarAutenticacao, animaisController.atualizarAnimal);
+router.post("/editar/:id", verificarAutenticacao, upload.single("foto"), animaisController.atualizarAnimal);
 router.get("/detalhes/:id", animaisController.exibirDetalhesAnimal);
 
 module.exports = router;

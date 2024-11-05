@@ -1,14 +1,15 @@
 const { connectToDatabase, sql } = require("../config/database");
 
 class Usuario {
-    static async criarUsuario(nome, email, senha) {
+    static async criarUsuario(nome, email, senha, telefone) {
         try {
             const pool = await connectToDatabase();
             await pool.request()
                 .input("nome", sql.NVarChar, nome)
                 .input("email", sql.NVarChar, email)
                 .input("senha", sql.NVarChar, senha)
-                .query("INSERT INTO Usuarios (Nome, Email, Senha) VALUES (@nome, @email, @senha)");
+                .input("telefone", sql.NVarChar, telefone)
+                .query("INSERT INTO Usuarios (Nome, Email, Senha, Telefone) VALUES (@nome, @email, @senha, @telefone)");
         } catch (error) {
             throw new Error("Erro ao criar usuário: " + error.message);
         }
@@ -39,16 +40,17 @@ class Usuario {
         }
     }
 
-    static async atualizarUsuario(id, nome, email, senhaHash) {
+    static async atualizarUsuario(id, nome, email, senhaHash, telefone) {
         try {
             const pool = await connectToDatabase();
             const query = senhaHash
-                ? "UPDATE Usuarios SET Nome = @nome, Email = @email, Senha = @senha WHERE UsuarioID = @id"
-                : "UPDATE Usuarios SET Nome = @nome, Email = @email WHERE UsuarioID = @id";
+                ? "UPDATE Usuarios SET Nome = @nome, Email = @email, Senha = @senha, Telefone = @telefone WHERE UsuarioID = @id"
+                : "UPDATE Usuarios SET Nome = @nome, Email = @email, Telefone = @telefone WHERE UsuarioID = @id";
             const request = pool.request()
                 .input("id", sql.Int, id)
                 .input("nome", sql.NVarChar, nome)
-                .input("email", sql.NVarChar, email);
+                .input("email", sql.NVarChar, email)
+                .input("telefone", sql.NVarChar, telefone);
             if (senhaHash) {
                 request.input("senha", sql.NVarChar, senhaHash);
             }

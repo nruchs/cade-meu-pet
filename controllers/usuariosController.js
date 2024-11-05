@@ -15,10 +15,10 @@ exports.criarUsuario = async (req, res) => {
 
 // Função para registrar um novo usuário
 exports.registrarUsuario = async (req, res) => {
-    const { nome, email, senha } = req.body;
+    const { nome, email, senha, telefone } = req.body;
     try {
         const senhaHash = await bcrypt.hash(senha, 10); // Hash da senha com bcrypt
-        await Usuario.criarUsuario(nome, email, senhaHash);
+        await Usuario.criarUsuario(nome, email, senhaHash, telefone);
         res.redirect("/usuarios/login");
     } catch (error) {
         console.error(error);
@@ -73,13 +73,13 @@ exports.exibirPerfil = async (req, res) => {
 };
 
 exports.atualizarPerfil = async (req, res) => {
-    const { nome, email, senha } = req.body;
+    const { nome, email, senha, telefone } = req.body;
     try {
         let senhaHash = null;
         if (senha) {
             senhaHash = await bcrypt.hash(senha, 10); // Hash da nova senha, se informada
         }
-        await Usuario.atualizarUsuario(req.session.usuarioId, nome, email, senhaHash);
+        await Usuario.atualizarUsuario(req.session.usuarioId, nome, email, senhaHash, telefone);
         res.redirect("/usuarios/perfil");
     } catch (error) {
         console.error(error);

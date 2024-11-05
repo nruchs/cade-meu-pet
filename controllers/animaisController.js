@@ -1,9 +1,18 @@
 const Animal = require("../models/Animal");
+const Usuario = require("../models/Usuario");
 
 exports.criarAnimal = async (req, res) => {
     const usuarioId = req.session.usuarioId;
-    const {nome, idade, raca, caracteristicas, status, localizacao } = req.body;
+    const { nome, idade, raca, caracteristicas, status, localizacao, situacao, especie, genero, 
+        corPredominante, historia, dataEncontrado, dataDesaparecimento, recompensa
+    } = req.body;
     const foto = req.file ? `/uploads/${req.file.filename}` : null;
+    const localAtual = req.body.localAtual && req.body.localAtual !== "" ? req.body.localAtual : null;
+    const porte = req.body.porte && req.body.porte !== "" ? req.body.porte : null;
+    const cuidadosVeterinarios = req.body.cuidadosVeterinarios && req.body.cuidadosVeterinarios.length > 0 ? req.body.cuidadosVeterinarios.join(', ') : null;
+    const temperamento = req.body.temperamento && req.body.temperamento.length > 0 ? req.body.temperamento.join(', ') : null;
+    const adaptabilidade = req.body.adaptabilidade && req.body.adaptabilidade.length > 0 ? req.body.adaptabilidade.join(', ') : null;
+    const socializacao = req.body.socializacao && req.body.socializacao.length > 0 ? req.body.socializacao.join(', ') : null;
 
     if (!nome || !usuarioId) {
         req.session.mensagemErro = "Nome e ID do usuário são obrigatórios.";
@@ -12,7 +21,9 @@ exports.criarAnimal = async (req, res) => {
     }
 
     try {
-        await Animal.criarAnimal(usuarioId, nome, idade, raca, caracteristicas, status, localizacao, foto);
+        await Animal.criarAnimal(usuarioId, nome, idade, raca, caracteristicas, status, localizacao, foto, situacao, especie, genero, 
+            porte, corPredominante, localAtual, historia, cuidadosVeterinarios,
+            temperamento, adaptabilidade, socializacao, dataEncontrado, dataDesaparecimento, recompensa);
         req.session.mensagemSucesso = "Animal cadastrado com sucesso!";
         req.session.redirectUrl = "/usuarios/perfil"; // URL para redirecionar após sucesso
         res.redirect("/usuarios/perfil");
@@ -52,7 +63,22 @@ exports.buscarAnimalPorId = async (req, res) => {
 exports.atualizarAnimal = async (req, res) => {
     const usuarioId = req.session.usuarioId;
     const { id } = req.params;
-    const { nome, idade, raca, caracteristicas, status, localizacao } = req.body;
+    const foto = req.file ? `/uploads/${req.file.filename}` : null;
+    const { nome, idade, raca, caracteristicas, status, localizacao, situacao, especie, genero, 
+            porte, corPredominante, localAtual, historia, dataEncontrado, dataDesaparecimento, recompensa } = req.body;
+    
+    const cuidadosVeterinarios = req.body.cuidadosVeterinarios && req.body.cuidadosVeterinarios.length > 0 ? req.body.cuidadosVeterinarios.join(', ') : null;
+    const temperamento = req.body.temperamento && req.body.temperamento.length > 0 ? req.body.temperamento.join(', ') : null;
+    const adaptabilidade = req.body.adaptabilidade && req.body.adaptabilidade.length > 0 ? req.body.adaptabilidade.join(', ') : null;
+    const socializacao = req.body.socializacao && req.body.socializacao.length > 0 ? req.body.socializacao.join(', ') : null;
+
+    console.log({
+        nome, idade, raca, caracteristicas, status, localizacao, situacao, especie, genero,
+        porte, corPredominante, localAtual, historia, cuidadosVeterinarios,
+        temperamento, adaptabilidade, socializacao, dataEncontrado, dataDesaparecimento, recompensa
+    });
+
+    console.log("Dados recebidos:", req.body);
 
     try {
         const animal = await Animal.buscarAnimalPorId(id);
@@ -62,17 +88,25 @@ exports.atualizarAnimal = async (req, res) => {
             return res.redirect("/usuarios/perfil");
         }
 
-        const resultado = await Animal.atualizarAnimal(id, nome, idade, raca, caracteristicas, status, localizacao);
+        const resultado = await Animal.atualizarAnimal(id, usuarioId, nome, idade, raca, caracteristicas, status, localizacao, foto, situacao, especie, genero, 
+            porte, corPredominante, localAtual, historia, cuidadosVeterinarios,
+            temperamento, adaptabilidade, socializacao, dataEncontrado, dataDesaparecimento, recompensa);
+        
         if (resultado) {
             req.session.mensagemSucesso = "Animal atualizado com sucesso!";
             res.redirect("/usuarios/perfil");
+            
         } else {
-            res.status(404).send("Animal não encontrado.");
+            req.session.mensagemErro = "Animal não encontrado.";
+            req.session.redirectUrl = "/usuarios/perfil";
+            res.redirect("/usuarios/perfil");
         }
     } catch (error) {
         req.session.mensagemErro = "Erro ao atualizar o animal.";
         req.session.redirectUrl = "/usuarios/perfil";
         res.redirect("/usuarios/perfil");
+        console.error("Erro ao atualizar o animal:", error.message);
+        res.status(500).send("Erro ao atualizar o animal. Verifique o console para mais detalhes.");
     }
 };
 
@@ -107,11 +141,11 @@ exports.exibirEditarAnimal = async (req, res) => {
         if (animal) {
             res.render("editar", { titulo: "Editar Animal", animal });
         } else {
-            res.status(404).send("Animal não encontrado.");
+            req.session.mensagemErro = "Animal não encontrado.";
         }
     } catch (error) {
         console.error(error);
-        res.status(500).send("Erro ao carregar o formulário de edição.");
+        req.session.mensagemErro = "Erro ao carregar o formulário de edição.";
     }
 };
 
@@ -121,24 +155,27 @@ exports.exibirDetalhesAnimal = async (req, res) => {
     try {
         const animal = await Animal.buscarAnimalPorId(id);
         if (animal) {
-            res.render("detalhes", { titulo: "Detalhes do Animal", animal });
+            const usuario = await Usuario.buscarUsuarioPorId(animal.UsuarioID);
+            res.render("detalhes", { titulo: "Detalhes do Animal", animal, usuario });
         } else {
-            res.status(404).send("Animal não encontrado.");
+            req.session.mensagemErro = "Animal não encontrado.";
         }
     } catch (error) {
         console.error(error);
-        res.status(500).send("Erro ao carregar os detalhes do animal.");
+        req.session.mensagemErro = "Erro ao carregar os detalhes do animal.";
     }
 };
 
 // Função para buscar animais com filtros aplicados
 exports.buscarAnimaisComFiltros = async (req, res) => {
-    const { raca, idade, status, localizacao } = req.query;
+    const { raca, idade, status, localizacao, especie, genero, porte, situacao } = req.query;
     try {
-        const animais = await Animal.buscarComFiltros(raca, idade, status, localizacao);
+        const animais = await Animal.buscarComFiltros(raca, idade, status, localizacao, especie, genero, porte, situacao);
         res.render("resultados", { titulo: "Resultados da Busca", animais });
     } catch (error) {
         console.error(error);
-        res.status(500).send("Erro ao buscar animais.");
+        req.session.mensagemErro = "Erro ao buscar animais.";
+        req.session.redirectUrl = "/";
+        res.redirect("/");
     }
 };

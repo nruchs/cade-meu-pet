@@ -14,30 +14,125 @@
     <main>
         <div class="form-container">
             <%- include("partials/messages") %>
-        
-        <h2>Editar Animal</h2>
-        <form id="form-edicao" action="/animais/editar/<%= animal.AnimalID %>" method="POST">
-            <label>Nome: <input type="text" name="nome" value="<%= animal.Nome %>" ></label><br><br>
-            <label>Idade: <input type="number" name="idade" value="<%= animal.Idade %>" ></label><br><br>
-            <label>Raça: <input type="text" name="raca" value="<%= animal.Raca %>" ></label><br><br>
-            <label>Características: <input type="text" name="caracteristicas" value="<%= animal.Caracteristicas %>" ></label><br><br>
-            <label>Status:
-                <select name="status" required>
-                    <option value="Perdido">Perdido</option>
-                    <option value="Encontrado">Encontrado</option>
-                    <option value="Adocao">Adoção</option>
+            <h2>Editar Animal</h2>
+            <form id="form-edicao" action="/animais/editar/<%= animal.AnimalID %>" method="POST" enctype="multipart/form-data">
+                
+                <!-- Campos gerais -->
+                <label>Foto:</label>
+                <input type="file" name="foto" value="<%= animal.Foto %>" accept="image/*">
+    
+                <label>Nome:</label>
+                <input type="text" name="nome" value="<%= animal.Nome %>">
+    
+                <label>Idade:</label>
+                <input type="number" name="idade" value="<%= animal.Idade %>">
+    
+                <label>Espécie:</label>
+                <select name="especie" required>
+                    <option value="Cachorro" <%= animal.Especie === "Cachorro" ? "selected" : "" %>>Cachorro</option>
+                    <option value="Gato" <%= animal.Especie === "Gato" ? "selected" : "" %>>Gato</option>
                 </select>
-            </label><br><br>
-            <label>Localização: <input type="text" name="localizacao" value="<%= animal.Localizacao %>" ></label><br><br>
-            <label>Foto:
-                <input type="file" name="foto" accept="image/*">
-            </label><br><br>
-            <a href="/" class="btn">Voltar</a>
-            <button type="submit">Salvar Alterações</button>
-        </form>
-    </div>
+            
+                <label>Gênero:</label>
+                <select name="genero" required>
+                    <option value="Macho" <%= animal.Genero === "Macho" ? "selected" : "" %>>Macho</option>
+                    <option value="Femea" <%= animal.Genero === "Femea" ? "selected" : "" %>>Fêmea</option>
+                </select>
+            
+                <label>Raça:</label>
+                <input type="text" name="raca" value="<%= animal.Raca %>">
+            
+                <label>Porte:</label>
+                <select name="porte">
+                    <option value="">Selecione</option>
+                    <option value="Pequeno" <%= animal.Porte === "Pequeno" ? "selected" : "" %>>Pequeno</option>
+                    <option value="Medio" <%= animal.Porte === "Medio" ? "selected" : "" %>>Médio</option>
+                    <option value="Grande" <%= animal.Porte === "Grande" ? "selected" : "" %>>Grande</option>
+                </select>
+    
+                <label>Características:</label>
+                <textarea name="caracteristicas"><%= animal.Caracteristicas %></textarea>
+            
+                <label>Cor Predominante:</label>
+                <input type="text" name="corPredominante" value="<%= animal.CorPredominante %>">
+            
+                <label>Localização:</label>
+                <input type="text" name="localizacao" value="<%= animal.Localizacao %>" required>
+    
+                <label>Situação:</label>
+                <select name="situacao" id="situacao" onchange="exibirCamposEspecificos()" required>
+                    <option value="Perdido">Perdido</option>
+                    <option value="Procurando Tutor">Procurando Tutor</option>
+                    <option value="Para Adocao">Para adoção</option>
+                </select>
+    
+                <!-- Campos específicos para adoção -->
+                <div id="camposAdocao" style="display: none;">
+                    <label>Local Atual:</label>
+                    <select name="localAtual">
+                        <option value="">Selecione</option>
+                        <option value="Lar temporário">Lar temporário</option>
+                        <option value="Petshop">Petshop</option>
+                        <option value="Abrigo">Abrigo</option>
+                        <option value="Canil">Canil</option>
+                        <option value="ONG">ONG</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+    
+                    <label>História do Pet:</label>
+                    <textarea name="historia" placeholder="Conte a história do animal para incentivar a adoção."></textarea>
+    
+                    <label>Cuidados Veterinários:</label>
+                    <input type="checkbox" name="cuidadosVeterinarios[]" value="Vacinado"> Vacinado
+                    <input type="checkbox" name="cuidadosVeterinarios[]" value="Castrado"> Castrado
+                    <input type="checkbox" name="cuidadosVeterinarios[]" value="Vermífugado"> Vermifugado
+                    <input type="checkbox" name="cuidadosVeterinarios[]" value="Microchipado"> Microchipado
+                    <input type="checkbox" name="cuidadosVeterinarios[]" value="Necessidades Especiais"> Necessidades Especiais
+    
+                    <label>Temperamento:</label>
+                    <input type="checkbox" name="temperamento[]" value="Dócil"> Dócil
+                    <input type="checkbox" name="temperamento[]" value="Agressivo"> Agressivo
+                    <input type="checkbox" name="temperamento[]" value="Brincalhão"> Brincalhão
+                    <input type="checkbox" name="temperamento[]" value="Calmo"> Calmo
+                    <input type="checkbox" name="temperamento[]" value="Sociável"> Sociável
+                    <input type="checkbox" name="temperamento[]" value="Carente"> Carente
+                    <input type="checkbox" name="temperamento[]" value="Tímido"> Tímido
+                    <input type="checkbox" name="temperamento[]" value="Independente"> Independente
+    
+                    <label>Adaptabilidade:</label>
+                    <input type="checkbox" name="adaptabilidade[]" value="Vive bem em apartamento"> Vive bem em apartamento
+                    <input type="checkbox" name="adaptabilidade[]" value="Vive bem em casa"> Vive bem em casa
+                    <input type="checkbox" name="adaptabilidade[]" value="Vive bem em fazenda"> Vive bem em fazenda
+    
+                    <label>Socialização:</label>
+                    <input type="checkbox" name="socializacao[]" value="Sociável com crianças"> Sociável com crianças
+                    <input type="checkbox" name="socializacao[]" value="Sociável com cães"> Sociável com outros cães
+                    <input type="checkbox" name="socializacao[]" value="Sociável com estranhos"> Sociável com estranhos
+                    <input type="checkbox" name="socializacao[]" value="Sociável com gatos"> Sociável com gatos
+                </div>
+    
+                <!-- Campos específicos para pets esperando tutor -->
+                <div id="camposTutor" style="display: none;">
+                    <label>Data que foi encontrado:</label>
+                    <input type="date" name="dataEncontrado">
+                </div>
+    
+                <!-- Campos específicos para pets perdidos -->
+                <div id="camposPerdido" style="display: none;">
+                    <label>Data de Desaparecimento:</label>
+                    <input type="date" name="dataDesaparecimento">
+    
+                    <label>Deseja oferecer uma recompensa?</label>
+                    <input type="text" name="recompensa" id="recompensa" placeholder="Valor em R$">
+                </div>
+    
+                <a href="/">Voltar</a>
+                <button type="submit">Salvar Alterações</button>
+            </form>
+        </div>
     </main>
 
     <script src="/js/script.js"></script>
+    <script src="/js/animalRegister.js"></script>
 </body>
 </html>
