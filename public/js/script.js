@@ -7,7 +7,7 @@ async function excluirAnimal(id) {
             });
             if (response.ok) {
                 alert("Animal excluído com sucesso!");
-                location.reload(); // Atualiza a página
+                location.reload();
             } else {
                 alert("Erro ao excluir o animal.");
             }

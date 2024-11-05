@@ -65,8 +65,20 @@ exports.atualizarAnimal = async (req, res) => {
     const { id } = req.params;
     const foto = req.file ? `/uploads/${req.file.filename}` : null;
     const { nome, idade, raca, caracteristicas, status, localizacao, situacao, especie, genero, 
-            porte, corPredominante, localAtual, historia, cuidadosVeterinarios,
-            temperamento, adaptabilidade, socializacao, dataEncontrado, dataDesaparecimento, recompensa } = req.body;
+            porte, corPredominante, localAtual, historia, dataEncontrado, dataDesaparecimento, recompensa } = req.body;
+    
+    const cuidadosVeterinarios = req.body.cuidadosVeterinarios && req.body.cuidadosVeterinarios.length > 0 ? req.body.cuidadosVeterinarios.join(', ') : null;
+    const temperamento = req.body.temperamento && req.body.temperamento.length > 0 ? req.body.temperamento.join(', ') : null;
+    const adaptabilidade = req.body.adaptabilidade && req.body.adaptabilidade.length > 0 ? req.body.adaptabilidade.join(', ') : null;
+    const socializacao = req.body.socializacao && req.body.socializacao.length > 0 ? req.body.socializacao.join(', ') : null;
+
+    console.log({
+        nome, idade, raca, caracteristicas, status, localizacao, situacao, especie, genero,
+        porte, corPredominante, localAtual, historia, cuidadosVeterinarios,
+        temperamento, adaptabilidade, socializacao, dataEncontrado, dataDesaparecimento, recompensa
+    });
+
+    console.log("Dados recebidos:", req.body);
 
     try {
         const animal = await Animal.buscarAnimalPorId(id);
@@ -76,19 +88,25 @@ exports.atualizarAnimal = async (req, res) => {
             return res.redirect("/usuarios/perfil");
         }
 
-        const resultado = await Animal.atualizarAnimal(id, nome, idade, raca, caracteristicas, status, localizacao, foto, situacao, especie, genero, 
+        const resultado = await Animal.atualizarAnimal(id, usuarioId, nome, idade, raca, caracteristicas, status, localizacao, foto, situacao, especie, genero, 
             porte, corPredominante, localAtual, historia, cuidadosVeterinarios,
             temperamento, adaptabilidade, socializacao, dataEncontrado, dataDesaparecimento, recompensa);
+        
         if (resultado) {
             req.session.mensagemSucesso = "Animal atualizado com sucesso!";
             res.redirect("/usuarios/perfil");
+            
         } else {
             req.session.mensagemErro = "Animal não encontrado.";
+            req.session.redirectUrl = "/usuarios/perfil";
+            res.redirect("/usuarios/perfil");
         }
     } catch (error) {
         req.session.mensagemErro = "Erro ao atualizar o animal.";
         req.session.redirectUrl = "/usuarios/perfil";
         res.redirect("/usuarios/perfil");
+        console.error("Erro ao atualizar o animal:", error.message);
+        res.status(500).send("Erro ao atualizar o animal. Verifique o console para mais detalhes.");
     }
 };
 
@@ -150,12 +168,14 @@ exports.exibirDetalhesAnimal = async (req, res) => {
 
 // Função para buscar animais com filtros aplicados
 exports.buscarAnimaisComFiltros = async (req, res) => {
-    const { raca, idade, status, localizacao } = req.query;
+    const { raca, idade, status, localizacao, especie, genero, porte, situacao } = req.query;
     try {
-        const animais = await Animal.buscarComFiltros(raca, idade, status, localizacao);
+        const animais = await Animal.buscarComFiltros(raca, idade, status, localizacao, especie, genero, porte, situacao);
         res.render("resultados", { titulo: "Resultados da Busca", animais });
     } catch (error) {
         console.error(error);
         req.session.mensagemErro = "Erro ao buscar animais.";
+        req.session.redirectUrl = "/";
+        res.redirect("/");
     }
 };
