@@ -1,9 +1,15 @@
 const { connectToDatabase, sql } = require("../config/database");
 
 class Animal {
-    static async criarAnimal(usuarioId, nome, idade, raca, caracteristicas, status, localizacao, foto) {
+    static async criarAnimal(usuarioId, nome, idade, raca, caracteristicas, status, localizacao, foto, situacao, especie, genero, 
+        porte, corPredominante, localAtual, historia, cuidadosVeterinarios,
+        temperamento, adaptabilidade, socializacao, dataEncontrado, dataDesaparecimento, recompensa) {
         try {
             const pool = await connectToDatabase();
+            const dataEncontradoValida = dataEncontrado ? new Date(dataEncontrado) : null;
+            const dataDesaparecimentoValida = dataDesaparecimento ? new Date(dataDesaparecimento) : null;
+            const recompensaValida = recompensa ? parseFloat(recompensa) : null;
+
             await pool.request()
                 .input("usuarioId", sql.Int, usuarioId)
                 .input("nome", sql.NVarChar, nome)
@@ -13,7 +19,31 @@ class Animal {
                 .input("status", sql.NVarChar, status)
                 .input("localizacao", sql.NVarChar, localizacao)
                 .input("foto", sql.NVarChar, foto)
-                .query(`INSERT INTO Animais (UsuarioID, Nome, Idade, Raca, Caracteristicas, Status, Localizacao, Foto) VALUES (@usuarioId, @nome, @idade, @raca, @caracteristicas, @status, @localizacao, @foto)`);
+                .input("situacao", sql.NVarChar, situacao)
+                .input("especie", sql.NVarChar, especie)
+                .input("genero", sql.NVarChar, genero)
+                .input("porte", sql.NVarChar, porte)
+                .input("corPredominante", sql.NVarChar, corPredominante)
+                .input("localAtual", sql.NVarChar, localAtual)
+                .input("historia", sql.Text, historia)
+                .input("cuidadosVeterinarios", sql.NVarChar(sql.MAX), cuidadosVeterinarios)
+                .input("temperamento", sql.NVarChar(sql.MAX), temperamento)
+                .input("adaptabilidade", sql.NVarChar(sql.MAX), adaptabilidade)
+                .input("socializacao", sql.NVarChar(sql.MAX), socializacao)
+                .input("dataEncontrado", sql.Date, dataEncontradoValida)
+                .input("dataDesaparecimento", sql.Date, dataDesaparecimentoValida)
+                .input("recompensa", sql.Decimal(10, 2), recompensaValida)
+                .query(`
+                    INSERT INTO Animais (
+                        UsuarioID, Nome, Idade, Raca, Caracteristicas, Status, Localizacao, Foto,
+                        Situacao, Especie, Genero, Porte, CorPredominante, LocalAtual, Historia, CuidadosVeterinarios, Temperamento, Adaptabilidade,
+                        Socializacao, DataEncontrado, DataDesaparecimento, Recompensa
+                    ) VALUES (
+                        @usuarioId, @nome, @idade, @raca, @caracteristicas, @status, @localizacao, @foto,
+                        @situacao, @especie, @genero, @porte, @corPredominante, @localAtual, @historia, @cuidadosVeterinarios, @temperamento, @adaptabilidade,
+                        @socializacao, @dataEncontrado, @dataDesaparecimento, @recompensa
+                    )
+                `);
         } catch (error) {
             throw new Error("Erro ao criar animal: " + error.message);
         }
