@@ -1,0 +1,142 @@
+/* Container principal */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+/* Bloco de detalhes do animal */
+.animal-detalhes {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Bloco de cabeçalho */
+.animal-detalhes-header {
+    background: linear-gradient(90deg, #6c63ff 0%, #8e7cff 100%);
+    padding: 20px;
+    border-radius: 10px 10px 0 0;
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Bloco de Foto e Descrição */
+.animal-foto-descricao {
+    margin-bottom: 20px;
+}
+
+.animal-foto-descricao img {
+    border-radius: 10px;
+    width: 200px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+/* Contêiner do comentário do tutor */
+.tutor-comment {
+    background-color: #f1b1b1;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.tutor-comment h4 {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Blocos de informações */
+.info-blocos {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    gap: 20px; /* Espaço entre os blocos */
+}
+
+/* Estilo dos blocos de informações individuais */
+.animal-data-local, .animal-contato-responsavel, .animal-infos-basicas, .animal-caracteristicas {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    width: 48%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    text-align: left;
+}
+
+/* Título de cada bloco */
+.animal-data-local h3, .animal-contato-responsavel h3, .animal-infos-basicas h3, .animal-caracteristicas h3 {
+    color: #6c63ff;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+/* Estilo para o mapa */
+.animal-data-local iframe {
+    width: 100%;
+    height: 200px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 10px;
+}
+
+/* Recompensa */
+.animal-recompensa {
+    font-size: 18px;
+    color: #4CAF50;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+/* Estilo dos botões */
+.button-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.btn {
+    background-color: #6c63ff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 0 10px; /* Espaçamento entre os botões */
+}
+
+.btn:hover {
+    background-color: #554ecf;
+}
+
+/* Texto e margens */
+.animal-detalhes p {
+    color: #555;
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+    .info-blocos {
+        flex-direction: column;
+    }
+
+    .animal-data-local, .animal-contato-responsavel, .animal-infos-basicas, .animal-caracteristicas {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .button-container {
+        margin-top: 20px;
+    }
+}
+
