@@ -16,7 +16,7 @@
       crossorigin="anonymous"
     ></script>
 </head>
-<body>
+<body onload="exibirCamposEspecificos()">
     <main class="container">
       <%- include("partials/header") %>
       <div class="card my-5">
@@ -364,7 +364,7 @@
             </div>
 
             <div class="d-flex justify-content-between mt-4">
-                <a href="/" class="btn btn-secondary">Voltar</a>
+                <a href="/usuarios/perfil" class="btn btn-secondary">Voltar</a>
                 <button type="submit" class="btn btn-primary">Salvar Alterações</button>
             </div>
           </form>
@@ -373,6 +373,6 @@
     </main>
 
     <script src="/js/script.js"></script>
-    <script src="/js/animalRegister.js"></script>
+    <script src="/js/animalEdit.js"></script>
   </body>
 </html>
