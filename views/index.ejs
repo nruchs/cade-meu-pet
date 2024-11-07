@@ -71,37 +71,9 @@
             <%- include("partials/search") %>
             <!-- Coluna dos Cards de Animais -->
             <div class="col-md-9">
-              <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                <% animais.forEach(animal => { %>
-                <div class="col">
-                  <div class="card h-100">
-                    <% if (animal.Foto) { %>
-                    <img
-                      src="<%= animal.Foto %>"
-                      class="card-img-top"
-                      alt="<%= animal.Nome %>"
-                    />
-                    <% } %>
-                    <div class="card-body">
-                      <h5 class="card-title"><%= animal.Nome %></h5>
-                      <p class="card-text">
-                        <strong>Idade:</strong> <%= animal.Idade %> anos<br />
-                        <strong>Raça:</strong> <%= animal.Raca %><br />
-                        <strong>Status:</strong> <%= animal.Status %><br />
-                        <strong>Localização:</strong> <%= animal.Localizacao %>
-                      </p>
-                    </div>
-                    <div class="card-footer text-center">
-                      <a
-                        href="/animais/detalhes/<%= animal.AnimalID %>"
-                        class="btn btn-outline-primary"
-                        >Ver Detalhes</a
-                      >
-                    </div>
-                  </div>
-                </div>
-                <% }) %>
-              </div>
+              <div id="resultados">
+                <!-- Resultados da busca aparecerão aqui -->
+            </div>
               <!-- Botão de Paginação -->
               <div class="d-flex justify-content-center mt-4">
                 <button class="btn btn-primary">Ver Mais</button>
@@ -112,5 +84,6 @@
       </section>
     </div>
     <%- include("partials/footer") %>
+    <script src="/js/search.js"></script>
   </body>
 </html>

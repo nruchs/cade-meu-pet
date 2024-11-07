@@ -162,16 +162,47 @@ exports.exibirDetalhesAnimal = async (req, res) => {
     }
 };
 
+// // Função para buscar animais com filtros aplicados
+// exports.buscarAnimaisComFiltros = async (req, res) => {
+//     const { raca, idade, status, localizacao, especie, genero, porte, situacao } = req.query;
+//     try {
+//         const animais = await Animal.buscarComFiltros(raca, idade, status, localizacao, especie, genero, porte, situacao);
+//         res.render("resultados", { titulo: "Resultados da Busca", animais });
+//     } catch (error) {
+//         console.error(error);
+//         req.session.mensagemErro = "Erro ao buscar animais.";
+//         req.session.redirectUrl = "/";
+//         res.redirect("/");
+//     }
+// };
+
 // Função para buscar animais com filtros aplicados
 exports.buscarAnimaisComFiltros = async (req, res) => {
     const { raca, idade, status, localizacao, especie, genero, porte, situacao } = req.query;
+    const usuarioId = req.session.usuarioId;
+
     try {
         const animais = await Animal.buscarComFiltros(raca, idade, status, localizacao, especie, genero, porte, situacao);
-        res.render("resultados", { titulo: "Resultados da Busca", animais });
+        
+        const animaisComIsOwner = animais.map(animal => ({
+            ...animal,
+            isOwner: animal.UsuarioID === usuarioId
+        }));
+
+        if (req.headers.accept && req.headers.accept.includes('application/json')) {
+            return res.json(animaisComIsOwner);
+        }
+
+        console.log(animaisComIsOwner)
+        res.render("resultados", { titulo: "Resultados da Busca", animais: animaisComIsOwner });
     } catch (error) {
-        console.error(error);
+        console.error("Erro ao buscar animais:", error);
+
+        if (req.headers.accept && req.headers.accept.includes('application/json')) {
+            return res.status(500).json({ error: "Erro ao buscar animais." });
+        }
+
         req.session.mensagemErro = "Erro ao buscar animais.";
-        req.session.redirectUrl = "/";
         res.redirect("/");
     }
 };

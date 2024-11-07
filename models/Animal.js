@@ -196,7 +196,7 @@ class Animal {
         } catch (error) {
             throw new Error("Erro ao buscar animais com filtros: " + error.message);
         }
-    }    
+    }
 }
 
 
