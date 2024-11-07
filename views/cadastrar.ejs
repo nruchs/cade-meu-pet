@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cadastrar Animal</title>
-    <link rel="stylesheet" href="/css/style.css">
-
-    <link rel="stylesheet" href="/css/index.css" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -18,130 +15,470 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
-</head>
-<body>
-    <%- include("partials/header") %>
-    
-    <main>
-        <div class="form-container">
-            <%- include("partials/messages") %>
-        <form id="form-cadastro" action="/animais" method="POST" enctype="multipart/form-data">
-            <h2>Cadastro Completo do Animal</h2>
-            <!-- Campos gerais -->
-            <label>Foto:</label>
-            <input type="file" name="foto" accept="image/*" required>
+  </head>
+  <body>
+    <main class="container">
+      <%- include("partials/header") %>
+      <div class="card my-5">
+        <div class="card-body">
+          <h2 class="card-title text-center mb-4">
+            Cadastro Completo do Animal
+          </h2>
+          <%- include("partials/messages") %>
+          <form
+            id="form-cadastro"
+            action="/animais"
+            method="POST"
+            enctype="multipart/form-data"
+          >
+            <!-- Foto -->
+            <div class="mb-3">
+              <label for="foto" class="form-label">Foto:</label>
+              <input
+                type="file"
+                class="form-control"
+                id="foto"
+                name="foto"
+                accept="image/*"
+                required
+              />
+            </div>
 
-            <label>Nome:</label>
-            <input type="text" name="nome" >
-        
-            <label>Idade:</label>
-            <input type="number" name="idade" >
+            <!-- Nome e Idade -->
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="nome" class="form-label">Nome:</label>
+                <input type="text" class="form-control" id="nome" name="nome" />
+              </div>
+              <div class="col-md-6">
+                <label for="idade" class="form-label">Idade:</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="idade"
+                  name="idade"
+                />
+              </div>
+            </div>
 
-            <label>Espécie:</label>
-            <select name="especie" required>
-                <option value="Cachorro">Cachorro</option>
-                <option value="Gato">Gato</option>
-            </select>
-        
-            <label>Gênero:</label>
-            <select name="genero" required>
-                <option value="Macho">Macho</option>
-                <option value="Femea">Fêmea</option>
-            </select>
+            <!-- Espécie e Gênero -->
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="especie" class="form-label">Espécie:</label>
+                <select
+                  class="form-select"
+                  id="especie"
+                  name="especie"
+                  required
+                >
+                  <option value="Cachorro">Cachorro</option>
+                  <option value="Gato">Gato</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="genero" class="form-label">Gênero:</label>
+                <select class="form-select" id="genero" name="genero" required>
+                  <option value="Macho">Macho</option>
+                  <option value="Femea">Fêmea</option>
+                </select>
+              </div>
+            </div>
 
-            <label>Raça:</label>
-            <input type="text" name="raca" >
+            <!-- Raça e Porte -->
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="raca" class="form-label">Raça:</label>
+                <input type="text" class="form-control" id="raca" name="raca" />
+              </div>
+              <div class="col-md-6">
+                <label for="porte" class="form-label">Porte:</label>
+                <select class="form-select" id="porte" name="porte" required>
+                  <option value="">Selecione</option>
+                  <option value="Pequeno">Pequeno</option>
+                  <option value="Medio">Médio</option>
+                  <option value="Grande">Grande</option>
+                </select>
+              </div>
+            </div>
 
-            <label>Porte:</label>
-            <select name="porte" required>
-                <option value="">Selecione</option>
-                <option value="Pequeno">Pequeno</option>
-                <option value="Medio">Médio</option>
-                <option value="Grande">Grande</option>
-            </select>
+            <!-- Características e Cor Predominante -->
+            <div class="mb-3">
+              <label for="caracteristicas" class="form-label"
+                >Características:</label
+              >
+              <textarea
+                class="form-control"
+                id="caracteristicas"
+                name="caracteristicas"
+                placeholder="Descreva brevemente o animal"
+              ></textarea>
+            </div>
 
-            <label>Características:</label>
-            <textarea name="caracteristicas" placeholder="Descreva brevemente o animal"></textarea>
-        
-            <label>Cor Predominante:</label>
-            <input type="text" name="corPredominante" placeholder="Cor predominante do animal"> 
+            <div class="mb-3">
+              <label for="corPredominante" class="form-label"
+                >Cor Predominante:</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="corPredominante"
+                name="corPredominante"
+                placeholder="Cor predominante do animal"
+              />
+            </div>
 
-            <label>Localização:</label>
-            <input type="text" name="localizacao" required>
-        
-            <label>Situação:</label>
-            <select name="situacao" id="situacao" onchange="exibirCamposEspecificos()" required>
+            <!-- Localização e Situação -->
+            <div class="mb-3">
+              <label for="localizacao" class="form-label">Localização:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="localizacao"
+                name="localizacao"
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="situacao" class="form-label">Situação:</label>
+              <select
+                class="form-select"
+                id="situacao"
+                name="situacao"
+                onchange="exibirCamposEspecificos()"
+                required
+              >
                 <option value="Perdido">Perdido</option>
                 <option value="Procurando Tutor">Procurando Tutor</option>
                 <option value="Para Adocao">Para adoção</option>
-            </select>
-        
-            <!-- Campos específicos para adoção -->
-            <div id="camposAdocao" style="display: none;">
-                <label>Local Atual:</label>
-                <select name="localAtual">
-                    <option value="">Selecione</option>
-                    <option value="Lar temporário">Lar temporário</option>
-                    <option value="Petshop">Petshop</option>
-                    <option value="Abrigo">Abrigo</option>
-                    <option value="Canil">Canil</option>
-                    <option value="ONG">ONG</option>
-                    <option value="Outro">Outro</option>
-                </select>
-        
-                <label>História do Pet:</label>
-                <textarea name="historia" placeholder="Conte a história do animal para incentivar a adoção."></textarea>
-        
-                <label>Cuidados Veterinários:</label>
-                <input type="checkbox" name="cuidadosVeterinarios[]" value="Vacinado"> Vacinado
-                <input type="checkbox" name="cuidadosVeterinarios[]" value="Castrado"> Castrado
-                <input type="checkbox" name="cuidadosVeterinarios[]" value="Vermífugado"> Vermifugado
-                <input type="checkbox" name="cuidadosVeterinarios[]" value="Microchipado"> Microchipado
-                <input type="checkbox" name="cuidadosVeterinarios[]" value="Necessidades Especiais"> Necessidades Especiais
-            
-                <label>Temperamento:</label>
-                <input type="checkbox" name="temperamento[]" value="Dócil"> Dócil
-                <input type="checkbox" name="temperamento[]" value="Agressivo"> Agressivo
-                <input type="checkbox" name="temperamento[]" value="Brincalhão"> Brincalhão
-                <input type="checkbox" name="temperamento[]" value="Calmo"> Calmo
-                <input type="checkbox" name="temperamento[]" value="Sociável"> Sociável
-                <input type="checkbox" name="temperamento[]" value="Carente"> Carente
-                <input type="checkbox" name="temperamento[]" value="Tímido"> Tímido
-                <input type="checkbox" name="temperamento[]" value="Independente"> Independente
-            
-                <label>Adaptabilidade:</label>
-                <input type="checkbox" name="adaptabilidade[]" value="Vive bem em apartamento"> Vive bem em apartamento
-                <input type="checkbox" name="adaptabilidade[]" value="Vive bem em casa"> Vive bem em casa
-                <input type="checkbox" name="adaptabilidade[]" value="Vive bem em fazenda"> Vive bem em fazenda
+              </select>
+            </div>
 
-                <label>Socialização:</label>
-                <input type="checkbox" name="socializacao[]" value="Sociável com crianças"> Sociável com crianças
-                <input type="checkbox" name="socializacao[]" value="Sociável com cães"> Sociável com outros cães
-                <input type="checkbox" name="socializacao[]" value="Sociável com estranhos"> Sociável com estranhos
-                <input type="checkbox" name="socializacao[]" value="Sociável com gatos"> Sociável com gatos
+            <!-- Campos específicos para adoção -->
+            <div
+              id="camposAdocao"
+              class="border p-3 mt-3"
+              style="display: none"
+            >
+              <h5>Informações de Adoção</h5>
+              <div class="mb-3">
+                <label for="localAtual" class="form-label">Local Atual:</label>
+                <select class="form-select" id="localAtual" name="localAtual">
+                  <option value="">Selecione</option>
+                  <option value="Lar temporário">Lar temporário</option>
+                  <option value="Petshop">Petshop</option>
+                  <option value="Abrigo">Abrigo</option>
+                  <option value="Canil">Canil</option>
+                  <option value="ONG">ONG</option>
+                  <option value="Outro">Outro</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="historia" class="form-label"
+                  >História do Pet:</label
+                >
+                <textarea
+                  class="form-control"
+                  id="historia"
+                  name="historia"
+                  placeholder="Conte a história do animal para incentivar a adoção."
+                ></textarea>
+              </div>
+
+              <div class="mb-3">
+                <!-- Cuidados Veterinários -->
+                <h5>Cuidados Veterinários</h5>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="cuidadosVeterinarios[]"
+                        value="Vacinado"
+                      />
+                      <label class="form-check-label">Vacinado</label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="cuidadosVeterinarios[]"
+                        value="Castrado"
+                      />
+                      <label class="form-check-label">Castrado</label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="cuidadosVeterinarios[]"
+                        value="Vermífugado"
+                      />
+                      <label class="form-check-label">Vermífugado</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="cuidadosVeterinarios[]"
+                        value="Microchipado"
+                      />
+                      <label class="form-check-label">Microchipado</label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="cuidadosVeterinarios[]"
+                        value="Necessidades Especiais"
+                      />
+                      <label class="form-check-label"
+                        >Necessidades Especiais</label
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <!-- Temperamento -->
+                <h5>Temperamento</h5>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="temperamento[]"
+                        value="Dócil"
+                      />
+                      <label class="form-check-label">Dócil</label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="temperamento[]"
+                        value="Agressivo"
+                      />
+                      <label class="form-check-label">Agressivo</label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="temperamento[]"
+                        value="Brincalhão"
+                      />
+                      <label class="form-check-label">Brincalhão</label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="temperamento[]"
+                        value="Calmo"
+                      />
+                      <label class="form-check-label">Calmo</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="temperamento[]"
+                        value="Sociável"
+                      />
+                      <label class="form-check-label">Sociável</label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="temperamento[]"
+                        value="Carente"
+                      />
+                      <label class="form-check-label">Carente</label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="temperamento[]"
+                        value="Tímido"
+                      />
+                      <label class="form-check-label">Tímido</label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="temperamento[]"
+                        value="Independente"
+                      />
+                      <label class="form-check-label">Independente</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <!-- Adaptabilidade -->
+                <h5>Adaptabilidade</h5>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="adaptabilidade[]"
+                        value="Vive bem em apartamento"
+                      />
+                      <label class="form-check-label"
+                        >Vive bem em apartamento</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="adaptabilidade[]"
+                        value="Vive bem em casa"
+                      />
+                      <label class="form-check-label">Vive bem em casa</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="adaptabilidade[]"
+                        value="Vive bem em fazenda"
+                      />
+                      <label class="form-check-label"
+                        >Vive bem em fazenda</label
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <!-- Socialização -->
+                <h5>Socialização</h5>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="socializacao[]"
+                        value="Sociável com crianças"
+                      />
+                      <label class="form-check-label"
+                        >Sociável com crianças</label
+                      >
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="socializacao[]"
+                        value="Sociável com cães"
+                      />
+                      <label class="form-check-label">Sociável com cães</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="socializacao[]"
+                        value="Sociável com estranhos"
+                      />
+                      <label class="form-check-label"
+                        >Sociável com estranhos</label
+                      >
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="socializacao[]"
+                        value="Sociável com gatos"
+                      />
+                      <label class="form-check-label">Sociável com gatos</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <!-- Campos específicos para pets esperando tutor -->
-            <div id="camposTutor" style="display: none;">
-                <label>Data que foi encontrado:</label>
-                <input type="date" name="dataEncontrado">
+            <div id="camposTutor" class="border p-3 mt-3" style="display: none">
+              <h5>Informações para Pets Esperando Tutor</h5>
+              <div class="mb-3">
+                <label for="dataEncontrado" class="form-label"
+                  >Data que foi encontrado:</label
+                >
+                <input
+                  type="date"
+                  class="form-control"
+                  id="dataEncontrado"
+                  name="dataEncontrado"
+                />
+              </div>
             </div>
-        
+
             <!-- Campos específicos para pets perdidos -->
-            <div id="camposPerdido" style="display: none;">
-                <label>Data de Desaparecimento:</label>
-                <input type="date" name="dataDesaparecimento">
-        
-                <label>Deseja oferecer uma recompensa?</label>
-                <input type="text" name="recompensa" id="recompensa" placeholder="Valor em R$">
+            <div
+              id="camposPerdido"
+              class="border p-3 mt-3"
+              style="display: none"
+            >
+              <h5>Informações de Pets Perdidos</h5>
+              <div class="mb-3">
+                <label for="dataDesaparecimento" class="form-label"
+                  >Data de Desaparecimento:</label
+                >
+                <input
+                  type="date"
+                  class="form-control"
+                  id="dataDesaparecimento"
+                  name="dataDesaparecimento"
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="recompensa" class="form-label">Recompensa:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="recompensa"
+                  name="recompensa"
+                  placeholder="Valor em R$"
+                />
+              </div>
             </div>
-        
-            <button type="submit">Cadastrar Animal</button>
-        </form>
-    </div>
+
+            <button type="submit" class="btn btn-primary mt-4">
+              Cadastrar Animal
+            </button>
+          </form>
+        </div>
+      </div>
     </main>
 
     <script src="/js/script.js"></script>
     <script src="/js/animalRegister.js"></script>
-</body>
+  </body>
 </html>
