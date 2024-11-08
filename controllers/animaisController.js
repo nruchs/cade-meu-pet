@@ -178,23 +178,28 @@ exports.exibirDetalhesAnimal = async (req, res) => {
 
 // Função para buscar animais com filtros aplicados
 exports.buscarAnimaisComFiltros = async (req, res) => {
-    const { raca, idade, status, localizacao, especie, genero, porte, situacao } = req.query;
+    const { raca, idade, status, localizacao, especie, genero, porte, situacao, offset = 0 } = req.query;
     const usuarioId = req.session.usuarioId;
+    const limit = 6;
 
     try {
-        const animais = await Animal.buscarComFiltros(raca, idade, status, localizacao, especie, genero, porte, situacao);
+        // Buscar animais com filtros, limite e offset
+        const animais = await Animal.buscarComFiltros(
+            raca, idade, status, localizacao, especie, genero, porte, situacao, parseInt(offset), limit
+        );
         
         const animaisComIsOwner = animais.map(animal => ({
             ...animal,
             isOwner: animal.UsuarioID === usuarioId
         }));
 
+        // Retorna JSON para a requisição AJAX
         if (req.headers.accept && req.headers.accept.includes('application/json')) {
             return res.json(animaisComIsOwner);
         }
 
-        console.log(animaisComIsOwner)
-        res.render("resultados", { titulo: "Resultados da Busca", animais: animaisComIsOwner });
+        // Renderizar a página inicial com os primeiros 6 animais
+        res.render("index", { titulo: "Cadê Meu Pet?", animais: animaisComIsOwner });
     } catch (error) {
         console.error("Erro ao buscar animais:", error);
 

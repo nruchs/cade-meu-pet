@@ -147,12 +147,13 @@ class Animal {
     }    
 
     // Função para buscar animais com filtros
-    static async buscarComFiltros(raca, idade, status, localizacao, especie, genero, porte, situacao) {
+    static async buscarComFiltros(raca, idade, status, localizacao, especie, genero, porte, situacao, offset = 0, limit = 6) {
         try {
             const pool = await connectToDatabase();
             let query = "SELECT * FROM Animais WHERE 1=1";
             const inputs = {};
     
+            // Adicionando filtros de busca
             if (raca) {
                 query += " AND Raca = @raca";
                 inputs.raca = raca;
@@ -186,10 +187,15 @@ class Animal {
                 inputs.situacao = situacao;
             }
     
+            // Ordenação e paginação
+            query += " ORDER BY DataCadastro DESC OFFSET @offset ROWS FETCH NEXT @limit ROWS ONLY";
+    
             const request = pool.request();
             for (const [key, value] of Object.entries(inputs)) {
                 request.input(key, sql.NVarChar, value);
             }
+            request.input("offset", sql.Int, offset);
+            request.input("limit", sql.Int, limit);
     
             const result = await request.query(query);
             return result.recordset;
@@ -197,7 +203,6 @@ class Animal {
             throw new Error("Erro ao buscar animais com filtros: " + error.message);
         }
     }
-}
-
+} 
 
 module.exports = Animal;
