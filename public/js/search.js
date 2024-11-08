@@ -233,7 +233,7 @@ document.getElementById('form-busca').addEventListener('submit', async function 
         });
 
         if (response.ok) {
-            const animais = await response.json();
+            const { animais, hasMore } = await response.json();
             const resultadosDiv = document.getElementById('resultados');
             const verMaisDiv = document.getElementById('ver-mais-container');
 
@@ -242,18 +242,18 @@ document.getElementById('form-busca').addEventListener('submit', async function 
                 return;
             }
 
-            // Limpa os resultados anteriores e adiciona a estrutura inicial
             resultadosDiv.innerHTML = `
                 <div id="animais-container" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                     ${animais.map(animal => renderAnimalCard(animal)).join('')}
                 </div>
             `;
 
-            // Exibe o botão "Ver Mais" e define o offset inicial
-            verMaisDiv.innerHTML = `
-                <button id="verMais" class="btn btn-primary" data-offset="6">Ver Mais</button>
-            `;
-            document.getElementById('verMais').addEventListener('click', loadMoreAnimals);
+            if (hasMore) {
+                verMaisDiv.innerHTML = `<button id="verMais" class="btn btn-primary" data-offset="6">Ver Mais</button>`;
+                document.getElementById('verMais').addEventListener('click', loadMoreAnimals);
+            } else {
+                verMaisDiv.innerHTML = ''; // Remove o botão se não houver mais animais
+            }
         } else {
             console.error('Erro na resposta da busca:', response.status);
         }
@@ -261,6 +261,7 @@ document.getElementById('form-busca').addEventListener('submit', async function 
         console.error('Erro ao buscar animais:', error);
     }
 });
+
 
 // Função auxiliar para renderizar um card de animal
 function renderAnimalCard(animal) {
@@ -273,7 +274,7 @@ function renderAnimalCard(animal) {
                     <p class="card-text">
                         <strong>Idade:</strong> ${animal.Idade} anos<br>
                         <strong>Raça:</strong> ${animal.Raca}<br>
-                        <strong>Status:</strong> ${animal.Status || 'Não especificado'}<br>
+                        <strong>Status:</strong> ${animal.Status}<br>
                         <strong>Localização:</strong> ${animal.Localizacao || 'Não especificado'}
                     </p>
                 </div>
@@ -289,11 +290,11 @@ function renderAnimalCard(animal) {
     `;
 }
 
+
 // Função para carregar mais animais
 async function loadMoreAnimals() {
     const button = document.getElementById('verMais');
-    const offset = parseInt(button.getAttribute('data-offset'));
-
+    const offset = parseInt(button.getAttribute('data-offset')) || 0;
     const formData = new FormData(document.getElementById('form-busca'));
     formData.append('offset', offset);
 
@@ -303,22 +304,34 @@ async function loadMoreAnimals() {
         });
 
         if (response.ok) {
-            const animais = await response.json();
-            const container = document.getElementById('animais-container');
+            const data = await response.json();
+            const animais = Array.isArray(data.animais) ? data.animais : []; // Garante que `animais` é uma lista
+            const hasMore = data.hasMore || false;
 
+            const resultadosDiv = document.getElementById('animais-container');
+            if (!resultadosDiv) {
+                console.error("Elemento 'animais-container' não encontrado.");
+                return;
+            }
+
+            // Adiciona os novos cards ao final do container de resultados
             animais.forEach(animal => {
-                container.insertAdjacentHTML('beforeend', renderAnimalCard(animal));
+                const cardHTML = renderAnimalCard(animal);
+                resultadosDiv.insertAdjacentHTML('beforeend', cardHTML);
             });
 
             // Atualiza o offset para o próximo clique
             button.setAttribute('data-offset', offset + 6);
 
-            // Esconde o botão se menos de 6 animais foram retornados
-            if (animais.length < 6) {
+            // Esconde o botão se não houver mais animais
+            if (!hasMore) {
                 button.style.display = 'none';
             }
+        } else {
+            console.error('Erro na resposta ao carregar mais animais:', response.status);
         }
     } catch (error) {
         console.error("Erro ao carregar mais animais:", error);
     }
 }
+

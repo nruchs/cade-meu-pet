@@ -203,6 +203,34 @@ class Animal {
             throw new Error("Erro ao buscar animais com filtros: " + error.message);
         }
     }
+
+    static async contarComFiltros(raca, idade, status, localizacao, especie, genero, porte, situacao) {
+        try {
+            const pool = await connectToDatabase();
+            let query = "SELECT COUNT(*) as total FROM Animais WHERE 1=1";
+            const inputs = {};
+    
+            if (raca) query += " AND Raca = @raca";
+            if (idade) query += " AND Idade = @idade";
+            if (status) query += " AND Status = @status";
+            if (localizacao) query += " AND Localizacao LIKE '%' + @localizacao + '%'";
+            if (especie) query += " AND Especie = @especie";
+            if (genero) query += " AND Genero = @genero";
+            if (porte) query += " AND Porte = @porte";
+            if (situacao) query += " AND Situacao = @situacao";
+    
+            const request = pool.request();
+            for (const [key, value] of Object.entries(inputs)) {
+                request.input(key, sql.NVarChar, value);
+            }
+    
+            const result = await request.query(query);
+            return result.recordset[0].total;
+        } catch (error) {
+            throw new Error("Erro ao contar animais com filtros: " + error.message);
+        }
+    }
+    
 } 
 
 module.exports = Animal;

@@ -183,23 +183,26 @@ exports.buscarAnimaisComFiltros = async (req, res) => {
     const limit = 6;
 
     try {
-        // Buscar animais com filtros, limite e offset
+        // Obter os animais com base nos filtros e limite
         const animais = await Animal.buscarComFiltros(
             raca, idade, status, localizacao, especie, genero, porte, situacao, parseInt(offset), limit
         );
+
+        // Verificar a contagem total de animais para decidir sobre o botão "Ver Mais"
+        const totalAnimais = await Animal.contarComFiltros(raca, idade, status, localizacao, especie, genero, porte, situacao);
         
         const animaisComIsOwner = animais.map(animal => ({
             ...animal,
             isOwner: animal.UsuarioID === usuarioId
         }));
 
-        // Retorna JSON para a requisição AJAX
+        const hasMore = (parseInt(offset) + limit) < totalAnimais;
+
         if (req.headers.accept && req.headers.accept.includes('application/json')) {
-            return res.json(animaisComIsOwner);
+            return res.json({ animais: animaisComIsOwner, hasMore });
         }
 
-        // Renderizar a página inicial com os primeiros 6 animais
-        res.render("index", { titulo: "Cadê Meu Pet?", animais: animaisComIsOwner });
+        res.render("index", { titulo: "Cadê Meu Pet?", animais: animaisComIsOwner, hasMore });
     } catch (error) {
         console.error("Erro ao buscar animais:", error);
 
@@ -211,3 +214,4 @@ exports.buscarAnimaisComFiltros = async (req, res) => {
         res.redirect("/");
     }
 };
+
