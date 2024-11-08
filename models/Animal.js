@@ -116,7 +116,7 @@ class Animal {
                     WHERE AnimalID = @id
                 `);
             
-            return true; // Retorna true se a atualização foi feita com sucesso
+            return true;
         } catch (error) {
             throw new Error("Erro ao atualizar animal: " + error.message);
         }
@@ -128,7 +128,7 @@ class Animal {
             const result = await pool.request()
                 .input("id", sql.Int, id)
                 .query("DELETE FROM Animais WHERE AnimalID = @id");
-            return result.rowsAffected[0] > 0; // Retorna true se a exclusão foi feita
+            return result.rowsAffected[0] > 0;
         } catch (error) {
             throw new Error("Erro ao excluir animal: " + error.message);
         }
@@ -153,7 +153,6 @@ class Animal {
             let query = "SELECT * FROM Animais WHERE 1=1";
             const inputs = {};
     
-            // Adicionando filtros de busca
             if (raca) {
                 query += " AND Raca = @raca";
                 inputs.raca = raca;

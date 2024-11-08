@@ -28,11 +28,17 @@
         <!-- Foto do Animal e História -->
         <div class="text-center mb-4">
             <% if (animal.Foto) { %>
-                <img src="<%= animal.Foto %>" alt="<%= animal.Nome %>" class="animal-photo img-fluid mb-3">
+                <img src="<%= animal.Foto %>" alt="<%= animal.Nome %>" class="card-img-top img-fluid mb-3" style="object-fit: cover; height: 300px; width: 300px;">
             <% } %>
-            <% if (animal.Historia) { %>
+
+            <% if (animal.Historia || animal.Caracteristicas) { %>
                 <div class="story-container">
-                    <p><%= animal.Historia %></p>
+                    <% if (animal.Historia) { %>
+                        <p><%= animal.Historia %></p>
+                    <% } %>
+                    <% if (animal.Caracteristicas) { %>
+                        <p><%= animal.Caracteristicas %></p>
+                    <% } %>
                 </div>
             <% } %>
         </div>
@@ -59,7 +65,7 @@
                 <div class="card h-100 info-card">
                     <h5 class="card-title">Características</h5>
                     <div class="card-body">
-                        <% if (animal.CorPredominante) { %><p><strong>Cor Predominante:</strong> <%= animal.CorPredominante %></p><% } %>
+                        <% if (animal.CorPredominante) { %><p><strong>Cor:</strong> <%= animal.CorPredominante %></p><% } %>
                         <% if (animal.CuidadosVeterinarios) { %><p><strong>Cuidados Veterinários:</strong> <%= animal.CuidadosVeterinarios %></p><% } %>
                         <% if (animal.Temperamento) { %><p><strong>Temperamento:</strong> <%= animal.Temperamento %></p><% } %>
                         <% if (animal.Adaptabilidade) { %><p><strong>Adaptabilidade:</strong> <%= animal.Adaptabilidade %></p><% } %>

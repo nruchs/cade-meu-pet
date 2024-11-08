@@ -82,7 +82,7 @@ function renderAnimalCard(animal) {
                     <p class="card-text">
                         <strong>Idade:</strong> ${animal.Idade} anos<br>
                         <strong>Raça:</strong> ${animal.Raca || 'Não especificado'}<br>
-                        <strong>Status:</strong> ${animal.Status || 'Não especificado'}<br>
+                        <strong>Situação:</strong> ${animal.Situacao || 'Não especificado'}<br>
                         <strong>Localização:</strong> ${animal.Localizacao || 'Não especificado'}
                     </p>
                 </div>

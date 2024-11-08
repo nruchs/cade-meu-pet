@@ -29,13 +29,11 @@
 
       <div class="col-md-3 text-end">
         <% if (!usuarioAutenticado) { %>
-        <!-- Links para visitantes não autenticados -->
         <a href="/usuarios/registrar" class="btn btn-outline-primary me-2"
           >Registrar</a
         >
         <a href="/usuarios/login" class="btn btn-outline-primary me-2">Login</a>
         <% } else { %>
-        <!-- Links para usuários autenticados -->
         <a href="/usuarios/perfil" class="btn btn-primary">Perfil</a>
         <a href="/usuarios/logout" class="btn btn-primary">Logout</a>
         <% } %>

@@ -67,14 +67,14 @@
                         <div class="col">
                             <div class="card h-100">
                                 <% if (animal.Foto) { %>
-                                    <img src="<%= animal.Foto %>" class="card-img-top" alt="<%= animal.Nome %>">
+                                    <img src="<%= animal.Foto %>" class="card-img-top img-fluid" style="object-fit: cover; height: 200px;" alt="<%= animal.Nome %>">
                                 <% } %>
                                 <div class="card-body">
-                                    <h5 class="card-title"><%= animal.Nome %></h5>
+                                    <h5 class="card-title text-center"><%= animal.Nome %></h5>
                                     <p class="card-text">
                                         <strong>Idade:</strong> <%= animal.Idade %> anos<br>
                                         <strong>Raça:</strong> <%= animal.Raca %><br>
-                                        <strong>Status:</strong> <%= animal.Status %><br>
+                                        <strong>Situação:</strong> <%= animal.Situacao %><br>
                                         <strong>Localização:</strong> <%= animal.Localizacao %>
                                     </p>
                                 </div>
@@ -92,10 +92,13 @@
                             <p>Você não cadastrou nenhum animal.</p>
                         <% } %>
                 </div>
-                <!-- Botão de Paginação -->
+                <% if (animais.length > 6) { %>
                 <div class="d-flex justify-content-center mt-4">
                     <button class="btn btn-primary">Ver Mais</button>
                 </div>
+                <% } %>
+                <!-- Botão de Paginação -->
+
             </div>
       </div>
     </main>

@@ -1,16 +1,16 @@
-// Função para limpar campos de uma seção específica
 function limparCamposSeletor(seletor) {
-    const inputs = document.querySelectorAll(`${seletor} input, ${seletor} select, ${seletor} textarea`);
-    inputs.forEach(input => {
-      if (input.type === 'checkbox' || input.type === 'radio') {
-        input.checked = false;
-      } else {
-        input.value = '';
-      }
-    });
-  }
-  
-// Modifique a função de exibição dos campos específicos para também limpar os campos ocultos
+  const inputs = document.querySelectorAll(
+    `${seletor} input, ${seletor} select, ${seletor} textarea`
+  );
+  inputs.forEach((input) => {
+    if (input.type === "checkbox" || input.type === "radio") {
+      input.checked = false;
+    } else {
+      input.value = "";
+    }
+  });
+}
+
 function exibirCamposEspecificos() {
   const situacao = document.getElementById("situacao").value;
 
@@ -18,8 +18,7 @@ function exibirCamposEspecificos() {
   document.getElementById("camposTutor").style.display = "none";
   document.getElementById("camposPerdido").style.display = "none";
 
-  // Limpa campos quando a situação muda para garantir que apenas os campos visíveis mantenham dados
-  if (situacao === "Para Adocao") {
+  if (situacao === "Para Adoção") {
     document.getElementById("camposAdocao").style.display = "block";
     limparCamposSeletor("#camposTutor");
     limparCamposSeletor("#camposPerdido");
