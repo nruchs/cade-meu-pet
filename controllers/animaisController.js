@@ -122,7 +122,7 @@ exports.excluirAnimal = async (req, res) => {
         }
 
         await Animal.excluirAnimal(id);
-        return res.sendStatus(204);
+        return res.status(200).json({ mensagemSucesso: "Animal excluído com sucesso." });
     } catch (error) {
         console.error("Erro ao excluir o animal:", error.message);
         return res.status(500).json({ mensagemErro: "Erro ao excluir o animal." });
@@ -162,19 +162,6 @@ exports.exibirDetalhesAnimal = async (req, res) => {
     }
 };
 
-// // Função para buscar animais com filtros aplicados
-// exports.buscarAnimaisComFiltros = async (req, res) => {
-//     const { raca, idade, status, localizacao, especie, genero, porte, situacao } = req.query;
-//     try {
-//         const animais = await Animal.buscarComFiltros(raca, idade, status, localizacao, especie, genero, porte, situacao);
-//         res.render("resultados", { titulo: "Resultados da Busca", animais });
-//     } catch (error) {
-//         console.error(error);
-//         req.session.mensagemErro = "Erro ao buscar animais.";
-//         req.session.redirectUrl = "/";
-//         res.redirect("/");
-//     }
-// };
 
 // Função para buscar animais com filtros aplicados
 exports.buscarAnimaisComFiltros = async (req, res) => {
@@ -183,12 +170,10 @@ exports.buscarAnimaisComFiltros = async (req, res) => {
     const limit = 6;
 
     try {
-        // Obter os animais com base nos filtros e limite
         const animais = await Animal.buscarComFiltros(
             raca, idade, status, localizacao, especie, genero, porte, situacao, parseInt(offset), limit
         );
 
-        // Verificar a contagem total de animais para decidir sobre o botão "Ver Mais"
         const totalAnimais = await Animal.contarComFiltros(raca, idade, status, localizacao, especie, genero, porte, situacao);
         
         const animaisComIsOwner = animais.map(animal => ({
@@ -224,19 +209,14 @@ exports.listarAnimaisComPaginacao = async (req, res) => {
     try {
         const animais = await Animal.buscarComPaginacao(offset, limit);
 
-        // Adiciona a propriedade `isOwner` para cada animal
         const animaisComIsOwner = animais.map(animal => ({
             ...animal,
             isOwner: animal.UsuarioID === usuarioId
         }));
 
-        const hasMore = animais.length === limit; // Se o número de animais retornados é igual ao limite, há mais para carregar
-
-        if (req.headers.accept && req.headers.accept.includes('application/json')) {
-            return res.json({ animais: animaisComIsOwner, hasMore });
-        }
-
-        res.render("index", { titulo: "Cadê Meu Pet?", animais: animaisComIsOwner });
+        const totalAnimais = await Animal.contarTodos();
+        const hasMore = (offset + limit) < totalAnimais; 
+        res.render("index", { titulo: "Cadê Meu Pet?", animais: animaisComIsOwner, hasMore });
     } catch (error) {
         console.error("Erro ao listar animais com paginação:", error);
         res.status(500).send("Erro ao listar animais.");

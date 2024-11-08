@@ -187,7 +187,6 @@ class Animal {
                 inputs.situacao = situacao;
             }
     
-            // Ordenação e paginação
             query += " ORDER BY DataCadastro DESC OFFSET @offset ROWS FETCH NEXT @limit ROWS ONLY";
     
             const request = pool.request();
@@ -210,14 +209,38 @@ class Animal {
             let query = "SELECT COUNT(*) as total FROM Animais WHERE 1=1";
             const inputs = {};
     
-            if (raca) query += " AND Raca = @raca";
-            if (idade) query += " AND Idade = @idade";
-            if (status) query += " AND Status = @status";
-            if (localizacao) query += " AND Localizacao LIKE '%' + @localizacao + '%'";
-            if (especie) query += " AND Especie = @especie";
-            if (genero) query += " AND Genero = @genero";
-            if (porte) query += " AND Porte = @porte";
-            if (situacao) query += " AND Situacao = @situacao";
+            if (raca) {
+                query += " AND Raca = @raca";
+                inputs.raca = raca;
+            }
+            if (idade) {
+                query += " AND Idade = @idade";
+                inputs.idade = idade;
+            }
+            if (status) {
+                query += " AND Status = @status";
+                inputs.status = status;
+            }
+            if (localizacao) {
+                query += " AND Localizacao LIKE '%' + @localizacao + '%'";
+                inputs.localizacao = localizacao;
+            }
+            if (especie) {
+                query += " AND Especie = @especie";
+                inputs.especie = especie;
+            }
+            if (genero) {
+                query += " AND Genero = @genero";
+                inputs.genero = genero;
+            }
+            if (porte) {
+                query += " AND Porte = @porte";
+                inputs.porte = porte;
+            }
+            if (situacao) {
+                query += " AND Situacao = @situacao";
+                inputs.situacao = situacao;
+            }
     
             const request = pool.request();
             for (const [key, value] of Object.entries(inputs)) {
@@ -229,7 +252,7 @@ class Animal {
         } catch (error) {
             throw new Error("Erro ao contar animais com filtros: " + error.message);
         }
-    }
+    }  
 
     static async buscarComPaginacao(offset = 0, limit = 6) {
         try {
@@ -250,7 +273,16 @@ class Animal {
             throw new Error("Erro ao buscar animais com paginação: " + error.message);
         }
     }
-    
+
+    static async contarTodos() {
+        try {
+            const pool = await connectToDatabase();
+            const result = await pool.request().query("SELECT COUNT(*) as total FROM Animais");
+            return result.recordset[0].total;
+        } catch (error) {
+            throw new Error("Erro ao contar todos os animais: " + error.message);
+        }
+    }
 } 
 
 module.exports = Animal;
