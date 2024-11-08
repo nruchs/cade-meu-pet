@@ -215,3 +215,30 @@ exports.buscarAnimaisComFiltros = async (req, res) => {
     }
 };
 
+// Função para listar animais com paginação
+exports.listarAnimaisComPaginacao = async (req, res) => {
+    const usuarioId = req.session.usuarioId;
+    const offset = parseInt(req.query.offset) || 0;
+    const limit = 6;
+
+    try {
+        const animais = await Animal.buscarComPaginacao(offset, limit);
+
+        // Adiciona a propriedade `isOwner` para cada animal
+        const animaisComIsOwner = animais.map(animal => ({
+            ...animal,
+            isOwner: animal.UsuarioID === usuarioId
+        }));
+
+        const hasMore = animais.length === limit; // Se o número de animais retornados é igual ao limite, há mais para carregar
+
+        if (req.headers.accept && req.headers.accept.includes('application/json')) {
+            return res.json({ animais: animaisComIsOwner, hasMore });
+        }
+
+        res.render("index", { titulo: "Cadê Meu Pet?", animais: animaisComIsOwner });
+    } catch (error) {
+        console.error("Erro ao listar animais com paginação:", error);
+        res.status(500).send("Erro ao listar animais.");
+    }
+};

@@ -230,6 +230,26 @@ class Animal {
             throw new Error("Erro ao contar animais com filtros: " + error.message);
         }
     }
+
+    static async buscarComPaginacao(offset = 0, limit = 6) {
+        try {
+            const pool = await connectToDatabase();
+            const query = `
+                SELECT * FROM Animais 
+                ORDER BY DataCadastro DESC 
+                OFFSET @offset ROWS FETCH NEXT @limit ROWS ONLY
+            `;
+    
+            const request = pool.request();
+            request.input("offset", sql.Int, offset);
+            request.input("limit", sql.Int, limit);
+    
+            const result = await request.query(query);
+            return result.recordset;
+        } catch (error) {
+            throw new Error("Erro ao buscar animais com paginação: " + error.message);
+        }
+    }
     
 } 
 
