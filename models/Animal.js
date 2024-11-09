@@ -1,21 +1,24 @@
 const { connectToDatabase, sql } = require("../config/database");
 
 class Animal {
-    static async criarAnimal(usuarioId, nome, idade, raca, caracteristicas, status, localizacao, foto, situacao, especie, genero, 
-        porte, corPredominante, localAtual, historia, cuidadosVeterinarios,
-        temperamento, adaptabilidade, socializacao, dataEncontrado, dataDesaparecimento, recompensa) {
+    static async criarAnimal(usuarioId, nome, idade, raca, status, localizacao, foto, situacao, especie, genero, 
+        porte, corPredominante, localAtual, cuidadosVeterinarios,
+        temperamento, adaptabilidade, socializacao, dataEncontrado, dataDesaparecimento, recompensa, comentario) {
         try {
             const pool = await connectToDatabase();
             const dataEncontradoValida = dataEncontrado ? new Date(dataEncontrado) : null;
             const dataDesaparecimentoValida = dataDesaparecimento ? new Date(dataDesaparecimento) : null;
             const recompensaValida = recompensa ? parseFloat(recompensa) : null;
-
+            console.log({
+                nome, idade, raca, status, localizacao, situacao, especie, genero,
+                porte, corPredominante, localAtual, cuidadosVeterinarios,
+                temperamento, adaptabilidade, socializacao, dataEncontrado, dataDesaparecimento, recompensa, comentario
+            });
             await pool.request()
                 .input("usuarioId", sql.Int, usuarioId)
                 .input("nome", sql.NVarChar, nome)
                 .input("idade", sql.Int, idade)
                 .input("raca", sql.NVarChar, raca)
-                .input("caracteristicas", sql.NVarChar, caracteristicas)
                 .input("status", sql.NVarChar, status)
                 .input("localizacao", sql.NVarChar, localizacao)
                 .input("foto", sql.NVarChar, foto)
@@ -25,7 +28,6 @@ class Animal {
                 .input("porte", sql.NVarChar, porte)
                 .input("corPredominante", sql.NVarChar, corPredominante)
                 .input("localAtual", sql.NVarChar, localAtual)
-                .input("historia", sql.Text, historia)
                 .input("cuidadosVeterinarios", sql.NVarChar(sql.MAX), cuidadosVeterinarios)
                 .input("temperamento", sql.NVarChar(sql.MAX), temperamento)
                 .input("adaptabilidade", sql.NVarChar(sql.MAX), adaptabilidade)
@@ -33,15 +35,16 @@ class Animal {
                 .input("dataEncontrado", sql.Date, dataEncontradoValida)
                 .input("dataDesaparecimento", sql.Date, dataDesaparecimentoValida)
                 .input("recompensa", sql.Decimal(10, 2), recompensaValida)
+                .input("comentario", sql.NVarChar, comentario)
                 .query(`
                     INSERT INTO Animais (
-                        UsuarioID, Nome, Idade, Raca, Caracteristicas, Status, Localizacao, Foto,
-                        Situacao, Especie, Genero, Porte, CorPredominante, LocalAtual, Historia, CuidadosVeterinarios, Temperamento, Adaptabilidade,
-                        Socializacao, DataEncontrado, DataDesaparecimento, Recompensa
+                        UsuarioID, Nome, Idade, Raca, Status, Localizacao, Foto,
+                        Situacao, Especie, Genero, Porte, CorPredominante, LocalAtual, CuidadosVeterinarios, Temperamento, Adaptabilidade,
+                        Socializacao, DataEncontrado, DataDesaparecimento, Recompensa, Comentario
                     ) VALUES (
-                        @usuarioId, @nome, @idade, @raca, @caracteristicas, @status, @localizacao, @foto,
-                        @situacao, @especie, @genero, @porte, @corPredominante, @localAtual, @historia, @cuidadosVeterinarios, @temperamento, @adaptabilidade,
-                        @socializacao, @dataEncontrado, @dataDesaparecimento, @recompensa
+                        @usuarioId, @nome, @idade, @raca, @status, @localizacao, @foto,
+                        @situacao, @especie, @genero, @porte, @corPredominante, @localAtual, @cuidadosVeterinarios, @temperamento, @adaptabilidade,
+                        @socializacao, @dataEncontrado, @dataDesaparecimento, @recompensa, @comentario
                     )
                 `);
         } catch (error) {
@@ -72,8 +75,8 @@ class Animal {
         }
     }
 
-    static async atualizarAnimal(id, usuarioId, nome, idade, raca, caracteristicas, status, localizacao, foto, situacao, especie, genero, 
-        porte, corPredominante, localAtual, historia, cuidadosVeterinarios, temperamento, adaptabilidade, socializacao, dataEncontrado, dataDesaparecimento, recompensa) {
+    static async atualizarAnimal(id, usuarioId, nome, idade, raca, status, localizacao, foto, situacao, especie, genero, 
+        porte, corPredominante, localAtual, cuidadosVeterinarios, temperamento, adaptabilidade, socializacao, dataEncontrado, dataDesaparecimento, recompensa, comentario) {
         try {
             const pool = await connectToDatabase();
             
@@ -87,7 +90,6 @@ class Animal {
                 .input("nome", sql.NVarChar, nome)
                 .input("idade", sql.Int, idade)
                 .input("raca", sql.NVarChar, raca)
-                .input("caracteristicas", sql.NVarChar, caracteristicas)
                 .input("status", sql.NVarChar, status)
                 .input("localizacao", sql.NVarChar, localizacao)
                 .input("foto", sql.NVarChar, foto)
@@ -97,7 +99,6 @@ class Animal {
                 .input("porte", sql.NVarChar, porte)
                 .input("corPredominante", sql.NVarChar, corPredominante)
                 .input("localAtual", sql.NVarChar, localAtual || null)
-                .input("historia", sql.Text, historia || null)
                 .input("cuidadosVeterinarios", sql.NVarChar(sql.MAX), cuidadosVeterinarios || null)
                 .input("temperamento", sql.NVarChar(sql.MAX), temperamento || null)
                 .input("adaptabilidade", sql.NVarChar(sql.MAX), adaptabilidade || null)
@@ -105,14 +106,15 @@ class Animal {
                 .input("dataEncontrado", sql.Date, dataEncontradoValida)
                 .input("dataDesaparecimento", sql.Date, dataDesaparecimentoValida)
                 .input("recompensa", sql.Decimal(10, 2), recompensaValida)
+                .input("comentario", sql.NVarChar, comentario)
                 .query(`
                     UPDATE Animais 
-                    SET UsuarioID = @usuarioId, Nome = @nome, Idade = @idade, Raca = @raca, Caracteristicas = @caracteristicas, 
+                    SET UsuarioID = @usuarioId, Nome = @nome, Idade = @idade, Raca = @raca, 
                         Status = @status, Localizacao = @localizacao, Foto = @foto, Situacao = @situacao, Especie = @especie, 
                         Genero = @genero, Porte = @porte, CorPredominante = @corPredominante, LocalAtual = @localAtual, 
-                        Historia = @historia, CuidadosVeterinarios = @cuidadosVeterinarios, Temperamento = @temperamento, 
+                        CuidadosVeterinarios = @cuidadosVeterinarios, Temperamento = @temperamento, 
                         Adaptabilidade = @adaptabilidade, Socializacao = @socializacao, DataEncontrado = @dataEncontrado, 
-                        DataDesaparecimento = @dataDesaparecimento, Recompensa = @recompensa
+                        DataDesaparecimento = @dataDesaparecimento, Recompensa = @recompensa, Comentario = @comentario
                     WHERE AnimalID = @id
                 `);
             
