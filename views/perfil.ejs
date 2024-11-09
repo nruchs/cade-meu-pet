@@ -65,7 +65,7 @@
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                     <% if (animais.length > 0) { %> <% animais.forEach(animal => { %>
                         <div class="col">
-                            <div class="card h-100">
+                            <div class="card h-100 shadow-sm" id="animal-card-<%= animal.AnimalID %>">
                                 <% if (animal.Foto) { %>
                                     <img src="<%= animal.Foto %>" class="card-img-top img-fluid" style="object-fit: cover; height: 200px;" alt="<%= animal.Nome %>">
                                 <% } %>
@@ -73,9 +73,9 @@
                                     <h5 class="card-title text-center"><%= animal.Nome %></h5>
                                     <p class="card-text">
                                         <strong>Idade:</strong> <%= animal.Idade %> anos<br>
-                                        <strong>Raça:</strong> <%= animal.Raca %><br>
-                                        <strong>Situação:</strong> <%= animal.Situacao %><br>
-                                        <strong>Localização:</strong> <%= animal.Localizacao %>
+                                        <strong>Raça:</strong> <%= animal.Raca || 'Não especificado' %><br>
+                                        <strong>Situação:</strong> <%= animal.Situacao || 'Não especificado' %><br>
+                                        <strong>Localização:</strong> <%= animal.Localizacao || 'Não especificado' %>
                                     </p>
                                 </div>
                                 <div class="card-footer text-center">
@@ -103,6 +103,7 @@
       </div>
     </main>
     <script src="/js/script.js"></script>
+    <script src="/js/search.js"></script>
     <%- include("partials/footer") %>
   </body>
 </html>
