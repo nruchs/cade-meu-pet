@@ -3,13 +3,17 @@ const { connectToDatabase, sql } = require("../config/database");
 class Animal {
     static async criarAnimal(usuarioId, nome, idade, raca, caracteristicas, status, localizacao, foto, situacao, especie, genero, 
         porte, corPredominante, localAtual, historia, cuidadosVeterinarios,
-        temperamento, adaptabilidade, socializacao, dataEncontrado, dataDesaparecimento, recompensa) {
+        temperamento, adaptabilidade, socializacao, dataEncontrado, dataDesaparecimento, recompensa, comentario) {
         try {
             const pool = await connectToDatabase();
             const dataEncontradoValida = dataEncontrado ? new Date(dataEncontrado) : null;
             const dataDesaparecimentoValida = dataDesaparecimento ? new Date(dataDesaparecimento) : null;
             const recompensaValida = recompensa ? parseFloat(recompensa) : null;
-
+            console.log({
+                nome, idade, raca, caracteristicas, status, localizacao, situacao, especie, genero,
+                porte, corPredominante, localAtual, historia, cuidadosVeterinarios,
+                temperamento, adaptabilidade, socializacao, dataEncontrado, dataDesaparecimento, recompensa, comentario
+            });
             await pool.request()
                 .input("usuarioId", sql.Int, usuarioId)
                 .input("nome", sql.NVarChar, nome)
@@ -33,15 +37,16 @@ class Animal {
                 .input("dataEncontrado", sql.Date, dataEncontradoValida)
                 .input("dataDesaparecimento", sql.Date, dataDesaparecimentoValida)
                 .input("recompensa", sql.Decimal(10, 2), recompensaValida)
+                .input("comentario", sql.NVarChar, comentario)
                 .query(`
                     INSERT INTO Animais (
                         UsuarioID, Nome, Idade, Raca, Caracteristicas, Status, Localizacao, Foto,
                         Situacao, Especie, Genero, Porte, CorPredominante, LocalAtual, Historia, CuidadosVeterinarios, Temperamento, Adaptabilidade,
-                        Socializacao, DataEncontrado, DataDesaparecimento, Recompensa
+                        Socializacao, DataEncontrado, DataDesaparecimento, Recompensa, Comentario
                     ) VALUES (
                         @usuarioId, @nome, @idade, @raca, @caracteristicas, @status, @localizacao, @foto,
                         @situacao, @especie, @genero, @porte, @corPredominante, @localAtual, @historia, @cuidadosVeterinarios, @temperamento, @adaptabilidade,
-                        @socializacao, @dataEncontrado, @dataDesaparecimento, @recompensa
+                        @socializacao, @dataEncontrado, @dataDesaparecimento, @recompensa, @comentario
                     )
                 `);
         } catch (error) {
@@ -73,7 +78,7 @@ class Animal {
     }
 
     static async atualizarAnimal(id, usuarioId, nome, idade, raca, caracteristicas, status, localizacao, foto, situacao, especie, genero, 
-        porte, corPredominante, localAtual, historia, cuidadosVeterinarios, temperamento, adaptabilidade, socializacao, dataEncontrado, dataDesaparecimento, recompensa) {
+        porte, corPredominante, localAtual, historia, cuidadosVeterinarios, temperamento, adaptabilidade, socializacao, dataEncontrado, dataDesaparecimento, recompensa, comentario) {
         try {
             const pool = await connectToDatabase();
             
@@ -105,6 +110,7 @@ class Animal {
                 .input("dataEncontrado", sql.Date, dataEncontradoValida)
                 .input("dataDesaparecimento", sql.Date, dataDesaparecimentoValida)
                 .input("recompensa", sql.Decimal(10, 2), recompensaValida)
+                .input("comentario", sql.NVarChar, comentario)
                 .query(`
                     UPDATE Animais 
                     SET UsuarioID = @usuarioId, Nome = @nome, Idade = @idade, Raca = @raca, Caracteristicas = @caracteristicas, 
@@ -112,7 +118,7 @@ class Animal {
                         Genero = @genero, Porte = @porte, CorPredominante = @corPredominante, LocalAtual = @localAtual, 
                         Historia = @historia, CuidadosVeterinarios = @cuidadosVeterinarios, Temperamento = @temperamento, 
                         Adaptabilidade = @adaptabilidade, Socializacao = @socializacao, DataEncontrado = @dataEncontrado, 
-                        DataDesaparecimento = @dataDesaparecimento, Recompensa = @recompensa
+                        DataDesaparecimento = @dataDesaparecimento, Recompensa = @recompensa, Comentario = @comentario
                     WHERE AnimalID = @id
                 `);
             

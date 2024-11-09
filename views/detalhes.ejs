@@ -31,14 +31,9 @@
                 <img src="<%= animal.Foto %>" alt="<%= animal.Nome %>" class="card-img-top img-fluid mb-3" style="object-fit: cover; height: 300px; width: 300px;">
             <% } %>
 
-            <% if (animal.Historia || animal.Caracteristicas) { %>
+            <% if (animal.Comentario) { %>
                 <div class="story-container">
-                    <% if (animal.Historia) { %>
-                        <p><%= animal.Historia %></p>
-                    <% } %>
-                    <% if (animal.Caracteristicas) { %>
-                        <p><%= animal.Caracteristicas %></p>
-                    <% } %>
+                    <p><%= animal.Comentario %></p>
                 </div>
             <% } %>
         </div>
@@ -87,6 +82,11 @@
                 </div>
             </div>
             
+            <% function formatCurrency(value) { 
+                return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
+            } %>
+            
+
             <!-- Contato do Responsável -->
             <div class="col">
                 <div class="card h-100 info-card">
@@ -95,7 +95,10 @@
                         <p><strong>Nome:</strong> <%= usuario.Nome %></p>
                         <p><strong>Email:</strong> <%= usuario.Email %></p>
                         <p><strong>Telefone:</strong> <%= usuario.Telefone %></p>
-                        <% if (animal.Recompensa) { %><p><strong>Recompensa:</strong> R$ <%= animal.Recompensa.toFixed(2) %></p><% } %>
+                        <% if (animal.Recompensa) { %>
+                            <p><strong>Recompensa:</strong> <%= formatCurrency(animal.Recompensa) %></p>
+                        <% } %>
+                        <!-- <% if (animal.Recompensa) { %><p><strong>Recompensa:</strong> R$ <%= animal.Recompensa %></p><% } %> -->
                     </div>
                 </div>
             </div>

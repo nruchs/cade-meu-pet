@@ -4,7 +4,7 @@ const Usuario = require("../models/Usuario");
 exports.criarAnimal = async (req, res) => {
     const usuarioId = req.session.usuarioId;
     const { nome, idade, raca, caracteristicas, status, localizacao, situacao, especie, genero, 
-        corPredominante, historia, dataEncontrado, dataDesaparecimento, recompensa
+        corPredominante, historia, dataEncontrado, dataDesaparecimento, recompensa, comentario
     } = req.body;
     const foto = req.file ? `/uploads/${req.file.filename}` : null;
     const localAtual = req.body.localAtual && req.body.localAtual !== "" ? req.body.localAtual : null;
@@ -23,7 +23,12 @@ exports.criarAnimal = async (req, res) => {
     try {
         await Animal.criarAnimal(usuarioId, nome, idade, raca, caracteristicas, status, localizacao, foto, situacao, especie, genero, 
             porte, corPredominante, localAtual, historia, cuidadosVeterinarios,
-            temperamento, adaptabilidade, socializacao, dataEncontrado, dataDesaparecimento, recompensa);
+            temperamento, adaptabilidade, socializacao, dataEncontrado, dataDesaparecimento, recompensa, comentario);
+            console.log({
+                nome, idade, raca, caracteristicas, status, localizacao, situacao, especie, genero,
+                porte, corPredominante, localAtual, historia, cuidadosVeterinarios,
+                temperamento, adaptabilidade, socializacao, dataEncontrado, dataDesaparecimento, recompensa, comentario
+            });
         req.session.mensagemSucesso = "Animal cadastrado com sucesso!";
         req.session.redirectUrl = "/usuarios/perfil"; // URL para redirecionar após sucesso
         res.redirect("/usuarios/perfil");
@@ -65,7 +70,7 @@ exports.atualizarAnimal = async (req, res) => {
     const { id } = req.params;
     const foto = req.file ? `/uploads/${req.file.filename}` : null;
     const { nome, idade, raca, caracteristicas, status, localizacao, situacao, especie, genero, 
-            porte, corPredominante, localAtual, historia, dataEncontrado, dataDesaparecimento, recompensa } = req.body;
+            porte, corPredominante, localAtual, historia, dataEncontrado, dataDesaparecimento, recompensa, comentario } = req.body;
     
     const cuidadosVeterinarios = req.body.cuidadosVeterinarios && req.body.cuidadosVeterinarios.length > 0 ? req.body.cuidadosVeterinarios.join(', ') : null;
     const temperamento = req.body.temperamento && req.body.temperamento.length > 0 ? req.body.temperamento.join(', ') : null;
@@ -75,7 +80,7 @@ exports.atualizarAnimal = async (req, res) => {
     console.log({
         nome, idade, raca, caracteristicas, status, localizacao, situacao, especie, genero,
         porte, corPredominante, localAtual, historia, cuidadosVeterinarios,
-        temperamento, adaptabilidade, socializacao, dataEncontrado, dataDesaparecimento, recompensa
+        temperamento, adaptabilidade, socializacao, dataEncontrado, dataDesaparecimento, recompensa, comentario
     });
 
     console.log("Dados recebidos:", req.body);
@@ -90,7 +95,7 @@ exports.atualizarAnimal = async (req, res) => {
 
         const resultado = await Animal.atualizarAnimal(id, usuarioId, nome, idade, raca, caracteristicas, status, localizacao, foto, situacao, especie, genero, 
             porte, corPredominante, localAtual, historia, cuidadosVeterinarios,
-            temperamento, adaptabilidade, socializacao, dataEncontrado, dataDesaparecimento, recompensa);
+            temperamento, adaptabilidade, socializacao, dataEncontrado, dataDesaparecimento, recompensa, comentario);
         
         if (resultado) {
             req.session.mensagemSucesso = "Animal atualizado com sucesso!";
