@@ -64,216 +64,55 @@
         </div>
       </section>
 
-      <!-- Busca Avançada -->
       <section id="search">
-        <!-- <h2>Encontre o seu Pet</h2>
-        <form action="/animais/busca" method="GET" class="busca-avancada">
-          <div class="busca-campo">
-            <label>Raça:</label>
-            <input type="text" name="raca" placeholder="Raça do animal" />
-          </div>
-          <div class="busca-campo">
-            <label>Idade:</label>
-            <input type="number" name="idade" placeholder="Idade (em anos)" />
-          </div>
-          <div class="busca-campo">
-            <label>Status:</label>
-            <select name="status">
-              <option value="">Selecione</option>
-              <option value="Perdido">Perdido</option>
-              <option value="Encontrado">Encontrado</option>
-              <option value="Adocao">Adoção</option>
-            </select>
-          </div>
-          <div class="busca-campo">
-            <label>Localização:</label>
-            <input
-              type="text"
-              name="localizacao"
-              placeholder="Cidade ou Bairro"
-            />
-          </div>
-          <button type="submit">Buscar</button>
-        </form> -->
-
-        <!-- <div class="container mt-5">
-          <h2 class="mb-4 text-center">Busca Refinada</h2>
-          <form action="/animais/busca" method="GET" class="row g-3">
-              <div class="col-md-6">
-                  <label for="raca" class="form-label">Raça</label>
-                  <input type="text" name="raca" id="raca" class="form-control" placeholder="Raça do animal">
-              </div>
-              <div class="col-md-6">
-                  <label for="idade" class="form-label">Idade</label>
-                  <input type="number" name="idade" id="idade" class="form-control" placeholder="Idade (em anos)">
-              </div>
-              <div class="col-md-6">
-                  <label for="status" class="form-label">Status</label>
-                  <select name="status" id="status" class="form-select">
-                      <option value="">Selecione</option>
-                      <option value="Perdido">Perdido</option>
-                      <option value="Encontrado">Encontrado</option>
-                      <option value="Adocao">Adoção</option>
-                  </select>
-              </div>
-              <div class="col-md-6">
-                  <label for="localizacao" class="form-label">Localização</label>
-                  <input type="text" name="localizacao" id="localizacao" class="form-control" placeholder="Cidade ou Bairro">
-              </div>
-              <div class="col-md-4">
-                  <label for="especie" class="form-label">Espécie</label>
-                  <select name="especie" id="especie" class="form-select">
-                      <option value="">Selecione</option>
-                      <option value="Cachorro">Cachorro</option>
-                      <option value="Gato">Gato</option>
-                  </select>
-              </div>
-              <div class="col-md-4">
-                  <label for="genero" class="form-label">Gênero</label>
-                  <select name="genero" id="genero" class="form-select">
-                      <option value="">Selecione</option>
-                      <option value="Macho">Macho</option>
-                      <option value="Femea">Fêmea</option>
-                  </select>
-              </div>
-              <div class="col-md-4">
-                  <label for="porte" class="form-label">Porte</label>
-                  <select name="porte" id="porte" class="form-select">
-                      <option value="">Selecione</option>
-                      <option value="Pequeno">Pequeno</option>
-                      <option value="Medio">Médio</option>
-                      <option value="Grande">Grande</option>
-                  </select>
-              </div>
-              <div class="col-md-4">
-                  <label for="situacao" class="form-label">Situação</label>
-                  <select name="situacao" id="situacao" class="form-select">
-                      <option value="">Selecione</option>
-                      <option value="Procurando Tutor">Procurando Tutor</option>
-                      <option value="Para Adocao">Para Adoção</option>
-                      <option value="Perdido">Perdido</option>
-                  </select>
-              </div>
-              <div class="col-12 text-center mt-4">
-                  <button type="submit" class="btn btn-primary">Buscar</button>
-                  <button type="reset" class="btn btn-secondary">Limpar Filtros</button>
-              </div>
-          </form>
-      </div> -->
-
-      <div class="container mt-5">
-        <div class="row">
-            <!-- Coluna da Busca Refinada (20%) -->
-            <div class="col-md-3">
-                <form action="/animais/busca" method="GET" class="mb-4">
-                    <div class="mb-3">
-                        <label for="raca" class="form-label">Raça</label>
-                        <input type="text" name="raca" id="raca" class="form-control" placeholder="Raça do animal">
-                    </div>
-                    <div class="mb-3">
-                        <label for="idade" class="form-label">Idade</label>
-                        <input type="number" name="idade" id="idade" class="form-control" placeholder="Idade (em anos)">
-                    </div>
-                    <div class="mb-3">
-                        <label for="status" class="form-label">Status</label>
-                        <select name="status" id="status" class="form-select">
-                            <option value="">Selecione</option>
-                            <option value="Perdido">Perdido</option>
-                            <option value="Encontrado">Encontrado</option>
-                            <option value="Adocao">Adoção</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="localizacao" class="form-label">Localização</label>
-                        <input type="text" name="localizacao" id="localizacao" class="form-control" placeholder="Cidade ou Bairro">
-                    </div>
-                    <div class="mb-3">
-                        <label for="especie" class="form-label">Espécie</label>
-                        <select name="especie" id="especie" class="form-select">
-                            <option value="">Selecione</option>
-                            <option value="Cachorro">Cachorro</option>
-                            <option value="Gato">Gato</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="genero" class="form-label">Gênero</label>
-                        <select name="genero" id="genero" class="form-select">
-                            <option value="">Selecione</option>
-                            <option value="Macho">Macho</option>
-                            <option value="Femea">Fêmea</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="porte" class="form-label">Porte</label>
-                        <select name="porte" id="porte" class="form-select">
-                            <option value="">Selecione</option>
-                            <option value="Pequeno">Pequeno</option>
-                            <option value="Medio">Médio</option>
-                            <option value="Grande">Grande</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="situacao" class="form-label">Situação</label>
-                        <select name="situacao" id="situacao" class="form-select">
-                            <option value="">Selecione</option>
-                            <option value="Procurando Tutor">Procurando Tutor</option>
-                            <option value="Para Adocao">Para Adoção</option>
-                            <option value="Perdido">Perdido</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100 mb-3">Buscar</button>
-                    <button type="reset" class="btn btn-secondary w-100">Limpar Filtros</button>
-                </form>
-            </div>
-    
-            <!-- Coluna dos Cards de Animais (80%) -->
-            <div class="col-md-9">
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                    <% animais.forEach(animal => { %>
-                        <div class="col">
-                            <div class="card h-100">
-                                <% if (animal.Foto) { %>
-                                    <img src="<%= animal.Foto %>" class="card-img-top" alt="<%= animal.Nome %>">
-                                <% } %>
-                                <div class="card-body">
-                                    <h5 class="card-title"><%= animal.Nome %></h5>
-                                    <p class="card-text">
-                                        <strong>Idade:</strong> <%= animal.Idade %> anos<br>
-                                        <strong>Raça:</strong> <%= animal.Raca %><br>
-                                        <strong>Status:</strong> <%= animal.Status %><br>
-                                        <strong>Localização:</strong> <%= animal.Localizacao %>
-                                    </p>
+        <div class="container mt-5">
+            <div class="row">
+                <%- include("partials/search") %>
+                <div class="col-md-9">
+                    <!-- Div para os resultados -->
+                    <div id="resultados">
+                        <div id="animais-container" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                            <% animais.forEach(animal => { %>
+                                <div class="col" id="animal-card-<%= animal.AnimalID %>">
+                                    <div class="card h-100 shadow-sm">
+                                        <% if (animal.Foto) { %>
+                                            <img src="<%= animal.Foto %>" class="card-img-top img-fluid" style="object-fit: cover; height: 200px;" alt="<%= animal.Nome %>">
+                                        <% } %>
+                                        <div class="card-body">
+                                            <h5 class="card-title text-center"><%= animal.Nome %></h5>
+                                            <p class="card-text">
+                                                <strong>Idade:</strong> <%= animal.Idade %> anos<br>
+                                                <strong>Raça:</strong> <%= animal.Raca || 'Não especificado' %><br>
+                                                <strong>Situação:</strong> <%= animal.Situacao || 'Não especificado' %><br>
+                                                <strong>Localização:</strong> <%= animal.Localizacao || 'Não especificado' %>
+                                            </p>
+                                        </div>
+                                        <div class="card-footer">
+                                            <a href="/animais/detalhes/<%= animal.AnimalID %>" class="btn btn-outline-primary">Ver Detalhes</a>
+                                            <% if (animal.isOwner) { %>
+                                                <a href="/animais/editar/<%= animal.AnimalID %>" class="btn btn-outline-primary">Editar</a>
+                                                <button onclick="excluirAnimal(<%= animal.AnimalID %>)" class="btn btn-danger">Excluir</button>
+                                            <% } %>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="card-footer text-center">
-                                    <a href="/animais/detalhes/<%= animal.AnimalID %>" class="btn btn-outline-primary">Ver Detalhes</a>
-                                </div>
-                            </div>
+                            <% }) %>
                         </div>
-                    <% }) %>
-                </div>
-                <!-- Botão de Paginação -->
-                <div class="d-flex justify-content-center mt-4">
-                    <button class="btn btn-primary">Ver Mais</button>
+                    </div>
+
+                    <!-- Div para o botão "Ver Mais" -->
+                    <div id="ver-mais-container" class="d-flex justify-content-center mt-4">
+                      <% if (typeof hasMore !== 'undefined' && hasMore) { %>
+                          <button id="verMais" class="btn btn-primary" data-offset="6">Ver Mais</button>
+                      <% } %>
+                  </div>
                 </div>
             </div>
         </div>
+    </section>
     </div>
-      </section>
-
-    </div>
-    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-      <div class="col-md-4 d-flex align-items-center">
-        <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
-          <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
-        </a>
-        <span class="mb-3 mb-md-0 text-body-secondary">© 2024 Cadê meu Pet?</span>
-      </div>
-  
-      <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-        <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
-        <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
-        <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
-      </ul>
-    </footer>
+    <%- include("partials/footer") %>
+    <script src="/js/search.js"></script>
+    <script src="/js/script.js"></script>
   </body>
 </html>

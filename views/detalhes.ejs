@@ -5,122 +5,108 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= titulo %></title>
     <link rel="stylesheet" href="/css/detalhes.css">
-    <link rel="stylesheet" href="/css/header.css">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
 </head>
 <body>
-    <header>
+
+    <main class="container">
         <%- include("partials/header") %>
-    </header>
-    <%- include("partials/messages") %>
-    <main>
-    <div class="container">
-        <div class="animal-detalhes-header">
-            <h2>Detalhes do Animal</h2>
-        </div>
-        <div class="animal-detalhes">
-            
-            <!-- Bloco de Foto e Descrição -->
-            <div class="animal-foto-descricao">
-                <% if (animal.Foto) { %>
-                    <img src="<%= animal.Foto %>" alt="<%= animal.Nome %>" width="200" height="200">
-                <% } %>
-                    <div class="tutor-comment">
-                        <% if (animal.Caracteristicas) { %>
-                            <p><strong>Descrição:</strong> <%= animal.Caracteristicas %></p>
-                        <% } %>
-                        <% if (animal.Historia) { %>
-                            <p><strong>História:</strong> <%= animal.Historia %></p>
-                        <% } %>
-                    </div>
-            </div>
-
-            <!-- Blocos de Informações Básicas e Características -->
-            <div class="info-blocos">
-                <div class="animal-infos-basicas">
-                    <h3>Informações Básicas</h3>
-                    <% if (animal.Nome) { %>
-                        <p><strong>Nome:</strong> <%= animal.Nome %></p>
-                    <% } %>
-                    <% if (animal.Genero) { %>
-                        <p><strong>Gênero:</strong> <%= animal.Genero %></p>
-                    <% } %>
-                    <% if (animal.Especie) { %>
-                        <p><strong>Espécie:</strong> <%= animal.Especie %></p>
-                    <% } %>
-                    <% if (animal.Raca) { %>
-                        <p><strong>Raça:</strong> <%= animal.Raca %></p>
-                    <% } %>
-                    <% if (animal.Idade) { %>
-                        <p><strong>Idade:</strong> <%= animal.Idade %> anos</p>
-                    <% } %>
-                    <% if (animal.Porte) { %>
-                        <p><strong>Porte:</strong> <%= animal.Porte %></p>
-                    <% } %>
-                </div>
-                
-                <div class="animal-caracteristicas">
-                    <h3>Características</h3>
-                    <% if (animal.CorPredominante) { %>
-                        <p><strong>Cor Predominante:</strong> <%= animal.CorPredominante %></p>
-                    <% } %>
-                    <% if (animal.CuidadosVeterinarios) { %>
-                        <p><strong>Cuidados Veterinários:</strong> <%= animal.CuidadosVeterinarios %></p>
-                    <% } %>
-                    <% if (animal.Temperamento) { %>
-                        <p><strong>Temperamento:</strong> <%= animal.Temperamento %></p>
-                    <% } %>
-                    <% if (animal.Adaptabilidade) { %>
-                        <p><strong>Adaptabilidade:</strong> <%= animal.Adaptabilidade %></p>
-                    <% } %>
-                    <% if (animal.Socializacao) { %>
-                        <p><strong>Socialização:</strong> <%= animal.Socializacao %></p>
-                    <% } %>
-                </div>
-            </div>
-            
-            <!-- Blocos de Data e Local e Contato -->
-            <div class="info-blocos">
-                <div class="animal-data-local">
-                    <h3>Data e Local</h3>
-                    <% if (animal.DataEncontrado) { %>
-                        <p><strong>Data Encontrado:</strong> <%= animal.DataEncontrado.toLocaleDateString() %></p>
-                    <% } %>
-                    <% if (animal.DataDesaparecimento) { %>
-                        <p><strong>Data de Desaparecimento:</strong> <%= animal.DataDesaparecimento.toLocaleDateString() %></p>
-                    <% } %>
-                    <% if (animal.Localizacao) { %>
-                        <p><strong>Localização:</strong> <%= animal.Localizacao %></p>
-                    <% } %>
-                    <% if (animal.LocalAtual) { %>
-                        <p><strong>Local Atual:</strong> <%= animal.LocalAtual %></p>
-                    <% } %>
-                    <!-- Placeholder para o mapa (ajustar conforme necessidade) -->
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.8354345093684!2d144.9537353153188!3d-37.81621897975156!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d43f1b11e81%3A0xf577ee4f8e2eaf80!2sMelbourne%20CBD%2C%20Victoria%2C%20Australia!5e0!3m2!1sen!2sus!4v1645249139032!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
-                </div>
-                
-                <div class="animal-contato-responsavel">
-                    <h3>Contato do Responsável</h3>
-                    <p><strong>Nome:</strong> <%= usuario.Nome %></p>
-                    <p><strong>Email:</strong> <%= usuario.Email %></p>
-                    <p><strong>Telefone:</strong> <%= usuario.Telefone %></p>
-                    <% if (animal.Recompensa) { %>
-                        <div class="animal-recompensa">
-                            <p>Recompensa: R$ <%= animal.Recompensa.toFixed(2) %></p>
-                        </div>
-                    <% } %>
-                </div>
-            </div>
-
-        <!-- Bloco de botões -->
-        <div class="button-container">
-            <a href="/" class="btn">Voltar</a>
-            <a href="/contato" class="btn">Contatar Responsável</a>
-        </div>
+        <div class="text-center my-5 mb-4">
+            <h2>Detalhes de <%= animal.Nome %></h2>
         </div>
         
-    </div>
-    </main>
+        <!-- Foto do Animal e História -->
+        <div class="text-center mb-4">
+            <% if (animal.Foto) { %>
+                <img src="<%= animal.Foto %>" alt="<%= animal.Nome %>" class="card-img-top img-fluid mb-3" style="object-fit: cover; height: 300px; width: 300px;">
+            <% } %>
 
-    <script src="/js/script.js"></script>
+            <% if (animal.Historia || animal.Caracteristicas) { %>
+                <div class="story-container">
+                    <% if (animal.Historia) { %>
+                        <p><%= animal.Historia %></p>
+                    <% } %>
+                    <% if (animal.Caracteristicas) { %>
+                        <p><%= animal.Caracteristicas %></p>
+                    <% } %>
+                </div>
+            <% } %>
+        </div>
+        
+        <!-- Grid de Informações -->
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            <!-- Informações Básicas -->
+            <div class="col">
+                <div class="card h-100 info-card">
+                    <h5 class="card-title">Informações Básicas</h5>
+                    <div class="card-body">
+                        <% if (animal.Nome) { %><p><strong>Nome:</strong> <%= animal.Nome %></p><% } %>
+                        <% if (animal.Genero) { %><p><strong>Gênero:</strong> <%= animal.Genero %></p><% } %>
+                        <% if (animal.Especie) { %><p><strong>Espécie:</strong> <%= animal.Especie %></p><% } %>
+                        <% if (animal.Raca) { %><p><strong>Raça:</strong> <%= animal.Raca %></p><% } %>
+                        <% if (animal.Idade) { %><p><strong>Idade:</strong> <%= animal.Idade %> anos</p><% } %>
+                        <% if (animal.Porte) { %><p><strong>Porte:</strong> <%= animal.Porte %></p><% } %>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Características -->
+            <div class="col">
+                <div class="card h-100 info-card">
+                    <h5 class="card-title">Características</h5>
+                    <div class="card-body">
+                        <% if (animal.CorPredominante) { %><p><strong>Cor:</strong> <%= animal.CorPredominante %></p><% } %>
+                        <% if (animal.CuidadosVeterinarios) { %><p><strong>Cuidados Veterinários:</strong> <%= animal.CuidadosVeterinarios %></p><% } %>
+                        <% if (animal.Temperamento) { %><p><strong>Temperamento:</strong> <%= animal.Temperamento %></p><% } %>
+                        <% if (animal.Adaptabilidade) { %><p><strong>Adaptabilidade:</strong> <%= animal.Adaptabilidade %></p><% } %>
+                        <% if (animal.Socializacao) { %><p><strong>Socialização:</strong> <%= animal.Socializacao %></p><% } %>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Data e Local -->
+            <div class="col">
+                <div class="card h-100 info-card">
+                    <h5 class="card-title">Data e Local</h5>
+                    <div class="card-body">
+                        <% if (animal.DataEncontrado) { %><p><strong>Data Encontrado:</strong> <%= animal.DataEncontrado.toLocaleDateString() %></p><% } %>
+                        <% if (animal.DataDesaparecimento) { %><p><strong>Data de Desaparecimento:</strong> <%= animal.DataDesaparecimento.toLocaleDateString() %></p><% } %>
+                        <% if (animal.Localizacao) { %><p><strong>Localização:</strong> <%= animal.Localizacao %></p><% } %>
+                        <% if (animal.LocalAtual) { %><p><strong>Local Atual:</strong> <%= animal.LocalAtual %></p><% } %>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contato do Responsável -->
+            <div class="col">
+                <div class="card h-100 info-card">
+                    <h5 class="card-title">Contato do Responsável</h5>
+                    <div class="card-body">
+                        <p><strong>Nome:</strong> <%= usuario.Nome %></p>
+                        <p><strong>Email:</strong> <%= usuario.Email %></p>
+                        <p><strong>Telefone:</strong> <%= usuario.Telefone %></p>
+                        <% if (animal.Recompensa) { %><p><strong>Recompensa:</strong> R$ <%= animal.Recompensa.toFixed(2) %></p><% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Botões de Ação -->
+        <div class="d-flex justify-content-between mt-4 btn-container">
+            <a href="/" class="btn btn-secondary">Voltar</a>
+            <a href="https://wa.me/<%= usuario.Telefone %>" class="btn btn-success" target="_blank">Contatar via WhatsApp</a>
+        </div>
+    </main>
+    <%- include("partials/footer") %>
 </body>
 </html>

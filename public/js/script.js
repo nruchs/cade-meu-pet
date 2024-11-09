@@ -1,23 +1,27 @@
-async function excluirAnimal(id) {
-    const confirmacao = confirm("Tem certeza que deseja excluir este animal?");
-    if (confirmacao) {
-        try {
-            const response = await fetch(`/animais/${id}`, {
-                method: "DELETE"
-            });
-            if (response.ok) {
-                alert("Animal excluído com sucesso!");
-                const card = document.querySelector(`.animal-card[data-id="${id}"]`);
-                if (card) card.remove();
-            } else if (response.status === 403) {
-                const data = await response.json();
-                alert(data.mensagemErro || "Acesso negado.");
-            } else {
-                alert("Erro ao excluir o animal. Tente novamente.");
+async function excluirAnimal(animalId) {
+    if (!confirm("Tem certeza de que deseja excluir este animal?")) return;
+
+    try {
+        const response = await fetch(`/animais/${animalId}`, {
+            method: 'DELETE',
+            headers: { 'Accept': 'application/json' }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            alert(data.mensagemSucesso || "Animal excluído com sucesso!");
+
+            // Remove o card do DOM
+            const animalCard = document.getElementById(`animal-card-${animalId}`);
+            if (animalCard) {
+                animalCard.remove();
             }
-        } catch (error) {
-            console.error("Erro ao excluir animal:", error);
-            alert("Erro ao excluir o animal. Verifique o console para mais detalhes.");
+        } else {
+            const errorData = await response.json();
+            alert(errorData.mensagemErro || "Erro ao excluir o animal.");
         }
+    } catch (error) {
+        console.error("Erro ao excluir o animal:", error);
+        alert("Erro ao excluir o animal.");
     }
 }

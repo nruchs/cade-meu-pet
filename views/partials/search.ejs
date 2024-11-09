@@ -1,0 +1,79 @@
+<div class="col-md-3">
+  <form action="/animais/busca" method="GET" class="mb-4" id="form-busca">
+    <div class="mb-3">
+      <label for="raca" class="form-label">Raça</label>
+      <input
+        type="text"
+        name="raca"
+        id="raca"
+        class="form-control"
+        placeholder="Raça do animal"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="idade" class="form-label">Idade</label>
+      <input
+        type="number"
+        name="idade"
+        id="idade"
+        class="form-control"
+        placeholder="Idade (em anos)"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="status" class="form-label">Status Atual</label>
+      <select name="status" id="status" class="form-select">
+        <option value="">Selecione</option>
+        <option value="Perdido">Perdido</option>
+        <option value="Encontrado">Encontrado</option>
+        <option value="Adoção">Adoção</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="localizacao" class="form-label">Localização</label>
+      <input
+        type="text"
+        name="localizacao"
+        id="localizacao"
+        class="form-control"
+        placeholder="Cidade ou Bairro"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="especie" class="form-label">Espécie</label>
+      <select name="especie" id="especie" class="form-select">
+        <option value="">Selecione</option>
+        <option value="Cachorro">Cachorro</option>
+        <option value="Gato">Gato</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="genero" class="form-label">Gênero</label>
+      <select name="genero" id="genero" class="form-select">
+        <option value="">Selecione</option>
+        <option value="Macho">Macho</option>
+        <option value="Femea">Fêmea</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="porte" class="form-label">Porte</label>
+      <select name="porte" id="porte" class="form-select">
+        <option value="">Selecione</option>
+        <option value="Pequeno">Pequeno</option>
+        <option value="Medio">Médio</option>
+        <option value="Grande">Grande</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="situacao" class="form-label">Situação</label>
+      <select name="situacao" id="situacao" class="form-select">
+        <option value="">Selecione</option>
+        <option value="Procurando Tutor">Procurando Tutor</option>
+        <option value="Para Adoção">Para Adoção</option>
+        <option value="Perdido">Perdido</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary w-100 mb-3">Buscar</button>
+    <button type="reset" class="btn btn-secondary w-100">Limpar Filtros</button>
+  </form>
+</div>

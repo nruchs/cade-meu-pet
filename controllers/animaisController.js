@@ -122,7 +122,7 @@ exports.excluirAnimal = async (req, res) => {
         }
 
         await Animal.excluirAnimal(id);
-        return res.sendStatus(204);
+        return res.status(200).json({ mensagemSucesso: "Animal excluído com sucesso." });
     } catch (error) {
         console.error("Erro ao excluir o animal:", error.message);
         return res.status(500).json({ mensagemErro: "Erro ao excluir o animal." });
@@ -162,16 +162,63 @@ exports.exibirDetalhesAnimal = async (req, res) => {
     }
 };
 
+
 // Função para buscar animais com filtros aplicados
 exports.buscarAnimaisComFiltros = async (req, res) => {
-    const { raca, idade, status, localizacao, especie, genero, porte, situacao } = req.query;
+    const { raca, idade, status, localizacao, especie, genero, porte, situacao, offset = 0 } = req.query;
+    const usuarioId = req.session.usuarioId;
+    const limit = 6;
+
     try {
-        const animais = await Animal.buscarComFiltros(raca, idade, status, localizacao, especie, genero, porte, situacao);
-        res.render("resultados", { titulo: "Resultados da Busca", animais });
+        const animais = await Animal.buscarComFiltros(
+            raca, idade, status, localizacao, especie, genero, porte, situacao, parseInt(offset), limit
+        );
+
+        const totalAnimais = await Animal.contarComFiltros(raca, idade, status, localizacao, especie, genero, porte, situacao);
+        
+        const animaisComIsOwner = animais.map(animal => ({
+            ...animal,
+            isOwner: animal.UsuarioID === usuarioId
+        }));
+
+        const hasMore = (parseInt(offset) + limit) < totalAnimais;
+
+        if (req.headers.accept && req.headers.accept.includes('application/json')) {
+            return res.json({ animais: animaisComIsOwner, hasMore });
+        }
+
+        res.render("index", { titulo: "Cadê Meu Pet?", animais: animaisComIsOwner, hasMore });
     } catch (error) {
-        console.error(error);
+        console.error("Erro ao buscar animais:", error);
+
+        if (req.headers.accept && req.headers.accept.includes('application/json')) {
+            return res.status(500).json({ error: "Erro ao buscar animais." });
+        }
+
         req.session.mensagemErro = "Erro ao buscar animais.";
-        req.session.redirectUrl = "/";
         res.redirect("/");
+    }
+};
+
+// Função para listar animais com paginação
+exports.listarAnimaisComPaginacao = async (req, res) => {
+    const usuarioId = req.session.usuarioId;
+    const offset = parseInt(req.query.offset) || 0;
+    const limit = 6;
+
+    try {
+        const animais = await Animal.buscarComPaginacao(offset, limit);
+
+        const animaisComIsOwner = animais.map(animal => ({
+            ...animal,
+            isOwner: animal.UsuarioID === usuarioId
+        }));
+
+        const totalAnimais = await Animal.contarTodos();
+        const hasMore = (offset + limit) < totalAnimais; 
+        res.render("index", { titulo: "Cadê Meu Pet?", animais: animaisComIsOwner, hasMore });
+    } catch (error) {
+        console.error("Erro ao listar animais com paginação:", error);
+        res.status(500).send("Erro ao listar animais.");
     }
 };
