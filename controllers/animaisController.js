@@ -157,7 +157,13 @@ exports.exibirDetalhesAnimal = async (req, res) => {
         const animal = await Animal.buscarAnimalPorId(id);
         if (animal) {
             const usuario = await Usuario.buscarUsuarioPorId(animal.UsuarioID);
-            res.render("detalhes", { titulo: "Detalhes do Animal", animal, usuario });
+
+        res.render('detalhes', { 
+            titulo: 'Detalhes do Animal',
+            animal,
+            usuario,
+            googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY 
+        });
         } else {
             req.session.mensagemErro = "Animal não encontrado.";
         }
