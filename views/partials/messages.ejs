@@ -2,7 +2,10 @@
     <div class="alert alert-success" id="mensagem-feedback"><%= mensagemSucesso %></div>
     <script>
         setTimeout(() => {
-            window.location.href = "<%= redirectUrl || '/' %>";
+            const mensagemFeedback = document.getElementById("mensagem-feedback");
+            if (mensagemFeedback) {
+                mensagemFeedback.style.display = "none";
+            }
         }, 3000);
     </script>
 <% } %>
@@ -10,7 +13,10 @@
     <div class="alert alert-danger" id="mensagem-feedback"><%= mensagemErro %></div>
     <script>
         setTimeout(() => {
-            window.location.href = "<%= redirectUrl || '/' %>";
+            const mensagemFeedback = document.getElementById("mensagem-feedback");
+            if (mensagemFeedback) {
+                mensagemFeedback.style.display = "none";
+            }
         }, 3000);
     </script>
 <% } %>

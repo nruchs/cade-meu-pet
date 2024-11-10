@@ -3,9 +3,9 @@ const Usuario = require("../models/Usuario");
 const bcrypt = require("bcrypt");
 
 exports.criarUsuario = async (req, res) => {
-    const { nome, email, senha } = req.body;
+    const { nome, email, senha, telefone } = req.body;
     try {
-        await Usuario.criarUsuario(nome, email, senha);
+        await Usuario.criarUsuario(nome, email, senha, telefone);
         res.status(201).send("Usuário cadastrado com sucesso!");
     } catch (error) {
         console.error(error);
@@ -16,9 +16,24 @@ exports.criarUsuario = async (req, res) => {
 // Função para registrar um novo usuário
 exports.registrarUsuario = async (req, res) => {
     const { nome, email, senha, telefone } = req.body;
+
+    if (!nome || !email || !senha || !telefone) {
+        req.session.mensagemErro = "Todos os campos são obrigatórios e devem estar em formato válido.";
+        return res.redirect("/usuarios/registrar");
+    }
+
+    const telefoneNumerico = telefone.replace(/\D/g, ''); // Remove caracteres não numéricos
+    const isCelularValido = telefoneNumerico.length === 11 && telefoneNumerico[2] === '9';
+    const isFixoValido = telefoneNumerico.length === 10 && telefoneNumerico[2] !== '9';
+
+    if (!isCelularValido && !isFixoValido) {
+        req.session.mensagemErro = "Insira um telefone válido no formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX.";
+        return
+    }
+
     try {
         const senhaHash = await bcrypt.hash(senha, 10); // Hash da senha com bcrypt
-        await Usuario.criarUsuario(nome, email, senhaHash, telefone);
+        await Usuario.criarUsuario(nome.trim(), email.trim(), senhaHash, telefone.trim());
         res.redirect("/usuarios/login");
     } catch (error) {
         console.error(error);
@@ -74,12 +89,17 @@ exports.exibirPerfil = async (req, res) => {
 
 exports.atualizarPerfil = async (req, res) => {
     const { nome, email, senha, telefone } = req.body;
+    if (!nome || !email || !telefone) {
+        req.session.mensagemErro = "Nome, e-mail e telefone são obrigatórios para atualizar o perfil.";
+        return res.redirect("/usuarios/perfil");
+    }
     try {
         let senhaHash = null;
         if (senha) {
             senhaHash = await bcrypt.hash(senha, 10); // Hash da nova senha, se informada
         }
-        await Usuario.atualizarUsuario(req.session.usuarioId, nome, email, senhaHash, telefone);
+        await Usuario.atualizarUsuario(req.session.usuarioId, nome.trim(), email.trim(), senhaHash, telefone.trim());
+        req.session.mensagemSucesso = "Perfil atualizado com sucesso!";
         res.redirect("/usuarios/perfil");
     } catch (error) {
         console.error(error);

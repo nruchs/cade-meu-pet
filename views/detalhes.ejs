@@ -85,8 +85,6 @@
             <% function formatCurrency(value) { 
                 return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
             } %>
-            
-
             <!-- Contato do Responsável -->
             <div class="col">
                 <div class="card h-100 info-card">
@@ -98,7 +96,6 @@
                         <% if (animal.Recompensa) { %>
                             <p><strong>Recompensa:</strong> <%= formatCurrency(animal.Recompensa) %></p>
                         <% } %>
-                        <!-- <% if (animal.Recompensa) { %><p><strong>Recompensa:</strong> R$ <%= animal.Recompensa %></p><% } %> -->
                     </div>
                 </div>
             </div>
@@ -107,7 +104,7 @@
         <!-- Botões de Ação -->
         <div class="d-flex justify-content-between mt-4 btn-container">
             <a href="/" class="btn btn-secondary">Voltar</a>
-            <a href="https://wa.me/<%= usuario.Telefone %>" class="btn btn-success" target="_blank">Contatar via WhatsApp</a>
+            <a href="https://wa.me/<%= usuario.Telefone.replace(/\D/g, '') %>" class="btn btn-success" target="_blank">Contatar via WhatsApp</a>
         </div>
     </main>
     <%- include("partials/footer") %>
