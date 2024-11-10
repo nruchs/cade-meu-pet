@@ -9,6 +9,8 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
+    <script src="https://unpkg.com/imask"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -26,31 +28,41 @@
         </button>
 
         <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header bg-primary text-white">
                         <h5 class="modal-title" id="editProfileModalLabel">Atualizar Dados do Perfil</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="/usuarios/perfil" method="POST">
+                        <form action="/usuarios/perfil" method="POST" id="editProfileForm">
                             <div class="mb-3">
                                 <label for="nome" class="form-label">Nome</label>
-                                <input type="text" class="form-control" id="nome" name="nome" value="<%= usuario.nome %>">
+                                <input type="text" class="form-control" id="nome" name="nome" value="<%= usuario.Nome %>" required>
+                                <div class="invalid-feedback">Por favor, insira seu nome.</div>
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" value="<%= usuario.email %>">
+                                <input type="email" class="form-control" id="email" name="email" value="<%= usuario.Email %>" required>
+                                <div class="invalid-feedback">Por favor, insira um e-mail válido.</div>
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3 position-relative">
                                 <label for="senha" class="form-label">Senha</label>
-                                <input type="senha" class="form-control" id="senha" name="senha" value="<%= usuario.senha %>">
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="senha" name="senha" value="<%= usuario.senha %>">
+                                    <button type="button" class="btn btn-secondary" onclick="togglePasswordVisibility('senha')">
+                                        <i class="bi bi-eye" id="senhaIcon"></i>
+                                    </button>
+                                </div>
+                                <div class="form-text">Mínimo de 6 caracteres. Deixe em branco para não alterar.</div>
                             </div>
                             <div class="mb-3">
                                 <label for="telefone" class="form-label">Telefone</label>
-                                <input type="tel" class="form-control" id="telefone" name="telefone" value="<%= usuario.telefone %>">
+                                <input type="tel" class="form-control" id="telefone" name="telefone" value="<%= usuario.Telefone %>" required>
                             </div>
-                            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -103,6 +115,8 @@
             </div>
       </div>
     </main>
+    <script src="/js/mask.js"></script>
+    <script src="/js/user.js"></script>
     <script src="/js/script.js"></script>
     <script src="/js/search.js"></script>
     <%- include("partials/footer") %>
