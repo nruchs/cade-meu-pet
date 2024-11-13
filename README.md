@@ -7,13 +7,13 @@ Desenvolvimento de um Website para Localização e Adoção de animais perdidos.
 <p align="center">
   <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-projeto">Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-layout">Layout</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-layout">Layout</a>&nbsp;&nbsp;&nbsp;
 </p>
 
 <br>
 
 <p align="center">
-  <img alt="Cadê meu Pet?" src=".github/logo.png" width="100%">
+  <img alt="Cadê meu Pet?" src="logo.png" width="30%">
 </p>
 
 ## 🚀 Tecnologias
