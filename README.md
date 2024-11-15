@@ -96,6 +96,11 @@ O projeto nasceu da necessidade crescente de recursos que aproximem tutores e ad
   <img src="github/edição-animal.png" width="60%">
 </p>
 
+<h3 align="center"> Detalhes do Animal </h3>
+<p align="center">
+  <img src="github/detalhes.png" width="60%">
+</p>
+
 ---
 
 Feito com ❤️ por Natalia Ruchs
