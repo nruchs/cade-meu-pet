@@ -10,7 +10,6 @@ function initMap() {
                 center: results[0].geometry.location,
             });
 
-            // Marcador tradicional
             new google.maps.Marker({
                 position: results[0].geometry.location,
                 map: map,

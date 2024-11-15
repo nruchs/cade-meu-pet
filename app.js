@@ -12,7 +12,6 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Configuração da sessão
 app.use(session({
     secret: process.env.SESSION_SECRET || "senha",
     resave: false,
@@ -20,19 +19,16 @@ app.use(session({
     cookie: { secure: false }
 }));
 
-// Middleware para definir a variável usuarioAutenticado nas views
 app.use((req, res, next) => {
     res.locals.usuarioAutenticado = !!req.session.usuarioId;
     next();
 });
 
-// Middleware para disponibilizar mensagens e URL de redirecionamento nas views
 app.use((req, res, next) => {
     res.locals.mensagemSucesso = req.session.mensagemSucesso;
     res.locals.mensagemErro = req.session.mensagemErro;
     res.locals.redirectUrl = req.session.redirectUrl;
     
-    // Remove as mensagens e URL de redirecionamento após a exibição
     delete req.session.mensagemSucesso;
     delete req.session.mensagemErro;
     delete req.session.redirectUrl;
@@ -41,27 +37,23 @@ app.use((req, res, next) => {
 });
 
 
-// Configurar o EJS como template engine e arquivos estáticos
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 
-// Rota principal para renderizar a página inicial com a lista de animais
 app.get("/", async (req, res) => {
     try {
-        const animais = await Animal.listarAnimais(); // Busca a lista de animais
-        res.render("index", { titulo: "Cadê Meu Pet?", animais }); // Passa a lista para a view
+        const animais = await Animal.listarAnimais();
+        res.render("index", { titulo: "Cadê Meu Pet?", animais });
     } catch (error) {
         console.error("Erro ao carregar a lista de animais:", error);
         res.status(500).send("Erro ao carregar a lista de animais.");
     }
 });
 
-// Usando as rotas para usuários e animais
 app.use("/usuarios", usuariosRoutes);
 app.use("/animais", animaisRoutes);
 
-// Middleware de tratamento de erros para feedback de erros consistentes
 app.use((err, req, res, next) => {
     console.error("Erro não tratado:", err);
     res.status(500).send("Algo deu errado! Tente novamente mais tarde.");

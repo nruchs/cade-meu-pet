@@ -15,7 +15,6 @@ class Usuario {
         }
     }
 
-    // Função para buscar um usuário pelo email
     static async buscarUsuarioPorEmail(email) {
         try {
             const pool = await connectToDatabase();
