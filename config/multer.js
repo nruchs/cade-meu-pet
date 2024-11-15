@@ -1,7 +1,6 @@
 const multer = require("multer");
 const path = require("path");
 
-// Configuração do armazenamento
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, path.join(__dirname, "../public/uploads"));
@@ -12,7 +11,6 @@ const storage = multer.diskStorage({
     }
 });
 
-// Configuração do Multer
 const upload = multer({
     storage: storage,
     limits: { fileSize: 2 * 1024 * 1024 }, // Limite de 2 MB

@@ -52,7 +52,6 @@ class Animal {
         }
     }
 
-    // Função para listar todos os animais
     static async listarAnimais() {
         try {
             const pool = await connectToDatabase();
@@ -148,7 +147,6 @@ class Animal {
         }
     }    
 
-    // Função para buscar animais com filtros
     static async buscarComFiltros(raca, idade, status, localizacao, especie, genero, porte, situacao, offset = 0, limit = 6) {
         try {
             const pool = await connectToDatabase();

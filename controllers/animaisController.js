@@ -30,7 +30,7 @@ exports.criarAnimal = async (req, res) => {
                 temperamento, adaptabilidade, socializacao, dataEncontrado, dataDesaparecimento, recompensa, comentario
             });
         req.session.mensagemSucesso = "Animal cadastrado com sucesso!";
-        req.session.redirectUrl = "/usuarios/perfil"; // URL para redirecionar após sucesso
+        req.session.redirectUrl = "/usuarios/perfil";
         res.redirect("/usuarios/perfil");
     } catch (error) {
         req.session.mensagemErro = "Erro ao cadastrar animal. Tente novamente.";
@@ -39,7 +39,6 @@ exports.criarAnimal = async (req, res) => {
     }
 };
 
-// Função para listar todos os animais
 exports.listarAnimais = async (req, res) => {
     try {
         const animais = await Animal.listarAnimais();
@@ -134,7 +133,6 @@ exports.excluirAnimal = async (req, res) => {
     }
 };
 
-// Função para exibir o formulário de edição de um animal
 exports.exibirEditarAnimal = async (req, res) => {
     const { id } = req.params;
     try {
@@ -150,7 +148,6 @@ exports.exibirEditarAnimal = async (req, res) => {
     }
 };
 
-// Função para exibir detalhes de um animal específico
 exports.exibirDetalhesAnimal = async (req, res) => {
     const { id } = req.params;
     try {
@@ -173,8 +170,6 @@ exports.exibirDetalhesAnimal = async (req, res) => {
     }
 };
 
-
-// Função para buscar animais com filtros aplicados
 exports.buscarAnimaisComFiltros = async (req, res) => {
     const { raca, idade, status, localizacao, especie, genero, porte, situacao, offset = 0 } = req.query;
     const usuarioId = req.session.usuarioId;
@@ -211,7 +206,6 @@ exports.buscarAnimaisComFiltros = async (req, res) => {
     }
 };
 
-// Função para listar animais com paginação
 exports.listarAnimaisComPaginacao = async (req, res) => {
     const usuarioId = req.session.usuarioId;
     const offset = parseInt(req.query.offset) || 0;

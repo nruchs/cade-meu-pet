@@ -4,7 +4,6 @@ const animaisController = require("../controllers/animaisController");
 const verificarAutenticacao = require("../middlewares/autenticacao");
 const upload = require("../config/multer");
 
-// Rotas protegidas
 router.get("/cadastrar", verificarAutenticacao, (req, res) => {
     res.render("cadastrar", { titulo: "Cadastrar Animal" });
 });

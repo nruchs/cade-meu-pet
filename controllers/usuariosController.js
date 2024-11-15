@@ -13,7 +13,6 @@ exports.criarUsuario = async (req, res) => {
     }
 };
 
-// Função para registrar um novo usuário
 exports.registrarUsuario = async (req, res) => {
     const { nome, email, senha, telefone } = req.body;
 
@@ -22,7 +21,7 @@ exports.registrarUsuario = async (req, res) => {
         return res.redirect("/usuarios/registrar");
     }
 
-    const telefoneNumerico = telefone.replace(/\D/g, ''); // Remove caracteres não numéricos
+    const telefoneNumerico = telefone.replace(/\D/g, '');
     const isCelularValido = telefoneNumerico.length === 11 && telefoneNumerico[2] === '9';
     const isFixoValido = telefoneNumerico.length === 10 && telefoneNumerico[2] !== '9';
 
@@ -42,7 +41,6 @@ exports.registrarUsuario = async (req, res) => {
     }
 };
 
-// Função para autenticar um usuário
 exports.loginUsuario = async (req, res) => {
     const { email, senha } = req.body;
     try {
@@ -64,7 +62,6 @@ exports.loginUsuario = async (req, res) => {
     }
 };
 
-// Função para encerrar a sessão do usuário
 exports.logoutUsuario = (req, res) => {
     req.session.destroy(err => {
         if (err) {
@@ -96,7 +93,7 @@ exports.atualizarPerfil = async (req, res) => {
     try {
         let senhaHash = null;
         if (senha) {
-            senhaHash = await bcrypt.hash(senha, 10); // Hash da nova senha, se informada
+            senhaHash = await bcrypt.hash(senha, 10);
         }
         await Usuario.atualizarUsuario(req.session.usuarioId, nome.trim(), email.trim(), senhaHash, telefone.trim());
         req.session.mensagemSucesso = "Perfil atualizado com sucesso!";

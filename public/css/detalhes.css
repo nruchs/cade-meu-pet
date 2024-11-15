@@ -1,18 +1,18 @@
 .story-container {
-    background-color: #31435f; /* cor salmão */
+    background-color: #31435f;
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 20px;
     color: #fff;
 }
 .info-card {
-    background-color: #E9ECEF !important; /* cinza claro */
+    background-color: #E9ECEF !important;
     border: 1px solid #DDD;
     border-radius: 8px;
     overflow: hidden;
 }
 .info-card .card-title {
-    background-color: #31435f; /* cor salmão para o título */
+    background-color: #31435f;
     padding: 10px;
     margin: 0;
     text-align: center;
